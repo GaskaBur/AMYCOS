@@ -1,0 +1,10 @@
+{% extends 'template.html' %}
+{% block content %}
+{{ parent() }}
+<h2>Elije una opción</h2>
+<h3>{{clase}}</h3>
+{% autoescape false %}
+{{form}}
+{% endautoescape %}
+<p><a href="?">volver</a></p>
+{% endblock %} 

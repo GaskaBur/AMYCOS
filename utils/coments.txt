@@ -1,0 +1,27 @@
+/* 
+---------------------------------------------------
+Codificación UTF_8
+utf8_decode($var)
+str_replace(search, replace, subject)
+---------------------------------------------------
+
+---------------------------------------------------
+Ejemplos de uso de consola y alert de errores
+Console::log('mensaje');
+Alert::show('mensaje');
+---------------------------------------------------
+
+---------------------------------------------------
+
+TWIG ***********************************************
+
+Ejemplo de uso
+
+$twig->addGlobal('varible_Global', 'contenido');
+echo $twig->render('index.html', array('name' => 'Fabien'));
+
+Otra opcion: guardando cache:
+
+$twig = new Twig_Environment($loader, array(
+    'cache' => '/path/to/compilation_cache',
+---------------------------------------------------

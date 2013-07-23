@@ -1,0 +1,191 @@
+<form action="?controller=UsuarioController&amp;action=add" id="formUsuario" method="post">
+<fieldset>
+	<fieldset>
+
+
+		<label>Tipo de Usuario</label>
+		<select id="tipo_usuario">
+			<option value="0" selected>Persona</option>
+			<option value="1">Organización</option>
+		</select>
+		<br>
+		<label>Tipo de Alta</label>
+		<select id="id_tipo_alta">
+			{% for tipo in tipos_alta %}	
+				<option value="{{tipo.id_tipo_alta}}" {% if (tipo.descripcion|lower == "web") %}selected{% endif %}>{{tipo.descripcion}}</option>
+			{% endfor %}
+		</select>
+
+
+
+		<div>
+			<label>nombre</label>		
+			<input type="text" id="nombre" >
+
+			<label>Delegación</label>
+			<select id="id_delegacion">
+				<option value="0" selected>---</option>
+				{% for delegacion in delegaciones %}	
+					<option value="{{delegacion.id_delegacon}}">{{delegacion.descripcion}}</option>
+				{% endfor %}
+			</select>
+
+			<div class="persona">
+				<label>Primer Apellido</label>
+				<input type="text" id="primer_apellido">
+				<label>Segundo Apellido</label>
+				<input type="text" id="segundo_apellido">
+			</div>
+			<div class="organizacion">
+				<label>Nombre corto</label>
+				<input type="text" id="nombre_corto">
+			</div>
+		</div>
+
+		<div>
+			<label>C.I.F.</label>		
+			<input type="text" id="cif" >
+
+			<label>Número de Cuenta</label>		
+			<input type="text" id="numero_cuenta" >
+
+			<label>Nacionalidad</label>		
+			<input type="text" id="nacionalidad" >
+
+		</div>
+
+	</fieldset>
+
+	<fieldset>
+	
+
+		<label>Estado del usuario</label>
+		<select id="estado">
+			<option value="0" {% if estado == 0%}selected{% endif %}>Pendiente de revisión</option>
+			<option value="1" >Aprobado</option>
+		</select>	
+
+		<br>
+
+		<label>Categoría del usuario</label>
+		<select id="id_categoria_usuario">
+			<option value="0" selected>---</option>
+			{% for categoria in categorias %}	
+				<option value="{{categoria.id_categoria_usuario}}">{{categoria.descripcion}}</option>
+			{% endfor %}
+		</select>	
+
+		<label>Rol del usuario</label>
+		<select id="id_rol">
+			<option value="0" selected>---</option>
+			{% for rol in roles %}	
+				<option value="{{rol.id_rol}}">{{rol.descripcion}}</option>
+			{% endfor %}
+		</select>	
+
+		<br>
+
+		<input type="checkbox" id="administrador" value="0">Administrador<br>
+		<div id="divPass" style="display:none">
+			<label>Contraseña de administrador</label>		
+			<input type="password" id="pass">
+		</div>
+		<input type="checkbox" id="suscriptor" value="0">Suscriptor<br>
+		<input type="checkbox" id="proveedor" value="0">proveedor<br>
+		<input type="checkbox" id="socio_local" value="0">Socio local<br>
+		<input type="checkbox" id="prg_becas_old" value="0">Miembro del programa de becas en el sistema anterior<br>
+		<div id="fechasBecas" style="display:none">
+			<label>Fecha de Alta en el programa de becas</label>		
+			<input type="text" id="becas_fecha_in">
+
+			<label>Fecha de Baja en el programa de becas</label>		
+			<input type="text" id="becas_fecha_out">
+		</div>
+		<input type="checkbox" id="colaborador_old" value="0">Colaborador en el sistema anterior<br>
+		<input type="checkbox" id="donante_old" value="0">Donante en el sistema anterior<br>
+
+	</fieldset>
+
+	<fieldset>
+	
+
+		<label>mail</label>		
+		<input type="text" id="mail">
+
+		<label>web</label>		
+		<input type="text" id="web">
+
+		<label>twitter</label>		
+		<input type="text" id="twitter">
+
+		<label>Teléfono fijo</label>		
+		<input type="text" id="tfno_fijo">
+
+		<label>Telefono movil</label>		
+		<input type="text" id="tfno_movil">
+
+		<label>Prefijo Internacional</label>		
+		<input type="text" id="pre_internacional">
+
+		<label>Horario de consulta</label>		
+		<input type="text" id="horario_consulta">
+
+		<label>¿Cómo nos ha conocido?</label>		
+		<input type="text" id="como_conocido">
+
+
+
+
+	</fieldset>
+
+	<fieldset class="persona">
+
+
+		<label>Fecha de Nacimiento</label>		
+		<input type="text" id="fecha_nacimiento">
+
+		<label>Genero</label>
+		<select id="genero">
+			<option value="--">---</option>
+			<option value="H" >Hombre</option>
+			<option value="M" >Mujer</option>
+		</select>	
+
+		<label>Tratamiento</label>		
+		<input type="text" id="tratamiento">
+
+		<label>Nivel de estudios</label>
+		<select id="id_estudios">
+			<option value="0" selected>---</option>
+			{% for estudio in estudios %}	
+				<option value="{{estudio.id_estudio}}">{{estudio.descripcion}}</option>
+			{% endfor %}
+		</select>	
+
+		<label>Profesión</label>
+		<select id="id_profesion">
+			<option value="0" selected>---</option>
+			{% for profesion in profesiones %}	
+				<option value="{{profesion.id_profesion}}">{{profesion.descripcion}}</option>
+			{% endfor %}
+		</select>
+
+
+
+
+
+	</fieldset>
+
+	<fieldset>
+		
+		<textarea id="observaciones" ></textarea>
+
+	</fieldset>
+
+	<fieldset>
+		
+
+	</fieldset>
+	<input type="submit" value="enviar">
+</fieldset>
+</form>
