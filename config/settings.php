@@ -1,10 +1,10 @@
 <?php 
 define('_DB_HOST_', 'localhost');
 define('_DB_TABLE_', 'amycos');
-define('_DB_USER_', 'innovanity');
-define('_DB_PASS_', 'ga2309rab');
-//define('_DB_USER_', 'root');
-//define('_DB_PASS_', '');
+//define('_DB_USER_', 'innovanity');
+//define('_DB_PASS_', 'ga2309rab');
+define('_DB_USER_', 'root');
+define('_DB_PASS_', '');
 
 const TYPE_INT = 1;
 const TYPE_BOOL = 2;

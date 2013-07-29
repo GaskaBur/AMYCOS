@@ -125,6 +125,9 @@ class Usuario extends Model {
 
 	#int - activo -> indica si el usuario está activado
 	public $activo = 1;
+	
+	#boolean -> activo indica que esta clase se puede filtar en listado y tiene campos para ello.
+	public $needFilter = true;
 
 
 	/*
@@ -141,17 +144,29 @@ class Usuario extends Model {
 		* relation = si el campo está asociado a alguna tabla de la base de datos
 		* relationKey = campo que se mostrará en la asociacón
 		* where = limitación del where al realizar la consulta para conseguir los datos de la relación.
+		* filter = true
 	*/
 	public $definition = array(
 		'table' => 'usuario',
 		'primary' => 'id_usuario',
 		'fields' => array(
-			'tipo_usuario' => array('type' => TYPE_INT, 'isRequired' => true),
+			'tipo_usuario' => array(
+				'type' => TYPE_INT, 
+				'isRequired' => true),
 			'fecha_alta' => array('type' => TYPE_DATE),
-			'id_tipo_alta' => array('type' => TYPE_INT, 'isRequired' => true),
+			'id_tipo_alta' => array(
+				'type' => TYPE_INT, 
+				'isRequired' => true,
+				'filter' => true,
+				'tableFilter' => 'tipos_alta',
+				'fieldFilter' => 'descripcion'),
 			'nombre' => array('type' => TYPE_STRING, 'isRequired' => true),
 			'nombre_corto' => array('type' => TYPE_STRING),
-			'id_categoria_usuario' => array('type' => TYPE_INT),
+			'id_categoria_usuario' => array(
+				'type' => TYPE_INT, 
+				'filter' => true, 
+				'tableFilter' => 'categorias_usuario', 
+				'fieldFilter' => 'descripcion'),
 			'id_rol' => array('type' => TYPE_INT),
 			'id_delegacion' => array('type' => TYPE_INT),
 			'web' => array('type' => TYPE_STRING),
@@ -159,7 +174,7 @@ class Usuario extends Model {
 			'primer_apellido' => array('type' => TYPE_STRING),
 			'segundo_apellido' => array('type' => TYPE_STRING),
 			'nacionalidad' => array('type' => TYPE_STRING),
-			'fecha_nacimiento' => array('type' => TYPE_DATE),
+			'fecha_nacimiento' => array('type' => TYPE_DATE, 'filter' => true),
 			'genero' => array('type' => TYPE_STRING),
 			'tratamiento' => array('type' => TYPE_STRING),
 			'tfno_fijo' => array('type' => TYPE_STRING),
@@ -180,9 +195,9 @@ class Usuario extends Model {
 			'colaborador_old' => array('type' => TYPE_BOOL),
 			'donante_old' => array('type' => TYPE_BOOL),
 			'numero_cuenta' => array('type' => TYPE_STRING),
-			'estado' => array('type' => TYPE_BOOL),
+			'estado' => array('type' => TYPE_BOOL, 'filter' => true),
 			'observaciones' => array('type' => TYPE_STRING),
-			'activo' => array('type' => TYPE_BOOL),
+			'activo' => array('type' => TYPE_BOOL, 'filter' => true),
 			'administrador' => array('type' => TYPE_BOOL),
 			'pass' => array('type' => TYPE_MD5),
 			

@@ -1,18 +1,118 @@
 <!DOCTYPE html>
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Amycos ERP</title>
+<meta charset="utf-8">
+<title>ONG Control</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="/js/html5shiv.js"></script>
+    <![endif]-->
+<!-- Style -->
+<link href="templates/css/bootstrap.min.css" rel="stylesheet">
+<link href="templates/css/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="templates/css/app.css" rel="stylesheet">
+<!-- Fav and touch icons -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="templates/ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="templates/ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="templates/ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="templates/ico/apple-touch-icon-57-precomposed.png">
+<link rel="shortcut icon" href="templates/ico/favicon.png">
 <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="templates/js/usuario.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 {% block js %}
 {% endblock %}
-
 </head>
 
 <body>
-{% block content %}
+<div class="container">
+{% block mainMenu %}
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      </button>
+      <a class="brand" href="#">ONG Control</a>
+      <div class="nav-collapse collapse">
+    <ul class="nav" role="navigation">
+    	<li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Personas <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+        <li><a href="?controller=PersonaController&amp;action=genList">Listado | Buscar</a></li>
+        <li><a href="?controller=PersonaController&amp;action=addForm">Nuevo</a></li>
+        </ul>
+        </li>
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Organizaciones <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+        <li><a href="?controller=OrganizacionController&amp;action=genList">Listado | Buscar</a></li>
+        <li><a href="?controller=OrganizacionController&amp;action=addForm">Nuevo</a></li>
+        </ul>
+        </li>
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+        <li><a href="?controller=UsuarioController&amp;action=genList">Usuarios</a></li>
+        <li><a href="?controller=DelegacionesController&amp;action=genList">delegaciones</a></li>
+        <li><a href="?controller=EstudiosController&amp;action=genList">Tipos de estudios</a></li>
+        <li><a href="?controller=ProfesionesController&amp;action=genList">Profesiones</a></li>
+        <li><a href="?controller=FormaContactoController&amp;action=genList">Formas de contacto</a></li>
+        <li><a href="?controller=TipoAltaController&amp;action=genList">Formas de tipo de alta</a></li>
+        <li><a href="?controller=CategoriasUsuarioController&amp;action=genList">Categorías Usuario</a></li>
+        <li><a href="?controller=RolController&amp;action=genList">Roles Usuario</a></li>
+        <li><a href="?controller=TelefonosController&amp;action=genList">Telefonos</a></li>
+        <li><a href="?controller=MailsController&amp;action=genList">Mails</a></li>
+        </ul>
+        </li>
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Voluntarios<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+        <li><a href="?controller=VoluntarioController&amp;action=genList">Voluntarios</a></li>
+        <li><a href="?controller=ProcedenciasController&amp;action=genList">Procedencias</a></li>
+        <li><a href="?controller=GruposController&amp;action=genList">Grupos de Voluntarios</a></li>
+        <li><a href="?controller=ClasesController&amp;action=genList">Clases de Voluntarios</a></li>
+        <li><a href="?controller=NaturalezasController&amp;action=genList">Naturalezas de los Voluntarios</a></li>
+        </ul>
+        </li>
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Proyectos<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+        <li><a href="?controller=ProyectosController&amp;action=genList">Proyectos</a></li>
+        <li><a href="?controller=DonacionesController&amp;action=genList">Donaciónes</a></li>
+        </ul>
+        </li>
+
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuración<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+        <li><a href="?controller=DireccionesController&amp;action=genList">Direcciones</a></li>
+        </ul>
+        </li>
+    </ul>
+      </div> <!--/.nav-collapse --> 
+    </div> <!-- /.container --> 
+  </div> <!-- /navbar-inner. --> 
+</div>
 {% endblock %}
+{% block main %}
+	{% block filtro %}
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
+    {% block lateral %}
+    {% endblock %}
+{% endblock %}
+</div> <!-- /.container --> 
+
+
+<script src="templates/js/bootstrap.min.js"></script>
 </body>
 </html>
+

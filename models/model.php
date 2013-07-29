@@ -76,8 +76,10 @@ abstract class Model extends DB {
 		$this->open_connection();
 		if ($this->con->query($sql))
 		{
+			$sql = sprintf("SELECT %s FROM %s ORDER BY %s DESC", $this->definition['primary'], $this->definition['table'],$this->definition['primary']);
+			$id = mysqli_fetch_array($this->con->query($sql));	
 			$this->close_connection();
-			return true;
+			return $id[0];
 		}
 		else
 		{

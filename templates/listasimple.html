@@ -1,12 +1,20 @@
 {% extends 'template.html' %}
+
+{% if filtro %}
+	{% block filtro %}
+		<p>{{filtro}}</p>
+    {% endblock %}    
+{% endif %}
 {% block content %}
+
 {{ parent() }}
+
 <h2>Elije una opción</h2>
 <h3>{{clase}}</h3>
 {% if error%}
 EXISTE ERRORES
 {% endif%}
-<p><a href="?controller={{controller}}&action=addForm">Añadir</a></p>
+<p><a href="?controller={{controller}}&action=addForm" class="btn btn-success"><i class="icon-plus"></i> Añadir</a></p>
 <table border="1" paddint="3">
 	
 		<tr>
@@ -23,11 +31,11 @@ EXISTE ERRORES
 		{% for key,ele in elemento %}
 			<td>{{ele|convert_encoding('UTF-8', 'UTF-8') }}</td>
 		{% endfor %}
-		<td><a href="?controller={{controller}}&action=addForm&id={{elemento[(id)]}}">Editar</a></td>	
-		<td><a href="?controller={{controller}}&action=del&id={{elemento[(id)]}}">Borrar</a></td>	
+		<td><a href="?controller={{controller}}&action=addForm&id={{elemento[(id)]}}" class=""><i class="icon-edit"></i> Editar</a></td>	
+		<td><a href="?controller={{controller}}&action=del&id={{elemento[(id)]}}" class=""><i class="icon-remove"></i> Borrar</a></td>	
        	</tr>
 
 	{% endfor %}
 </table>
-<p><a href="?">volver</a></p>
+<p><a href="?"><i class="icon-arrow-left"></i> Volver</a></p>
 {% endblock %} 

@@ -19,15 +19,16 @@
 {% endblock %}
 {% block content %}
 {% if usuario.id_usuario > 0 %}
-<form action="?controller=UsuarioController&action=add&id={{usuario.id_usuario}}" method="post">
+<form action="?controller=UsuarioController&amp;action=add&amp;id={{usuario.id_usuario}}" method="post">
 {% else %}
-<form action="?controller=UsuarioController&action=add" method="post">
+<form action="?controller=UsuarioController&amp;action=add" method="post">
 {% endif %}
 <fieldset>
+	<legend>Datos Generales</legend>
 		<label>Tipo de Usuario</label>
 		<select id="tipo_usuario" name="tipo_usuario">
-			<option value="0" selected="true">Persona</option>
-			<option value="1" {% if usuario.tipo_usuario == 1%}selected="true"{% endif %}>Organización</option>
+			<option value="0">Persona</option>
+			<option value="1" {% if tipo_usuario == 1%}selected{% endif %}>Organización</option>
 		</select>
 		<br>
         
@@ -46,7 +47,7 @@
 
 			<label>Delegación</label>
 			<select id="id_delegacion" name="id_delegacion">
-				<option value="0" selected>---</option>
+				<option value="0">---</option>
 				{% for delegacion in delegaciones %}	
 					<option value="{{delegacion.id_delegacion}}" {% if usuario.id_delegacion == delegacion.id_delegacion %}selected{% endif %}>{{delegacion.descripcion}}</option>
 				{% endfor %}
@@ -79,7 +80,7 @@
 </fieldset>
     
 <fieldset>
-	
+	<legend>Estado del usuario</legend>
 
 		<label>Estado del usuario</label>
 		<select id="estado" name="estado">
@@ -127,7 +128,7 @@
 		<input type="checkbox" id="donante_old" name="donante_old" value="1" {% if usuario.donante_old == 1 %}checked{% endif %}>Donante en el sistema anterior<br>
 </fieldset>
 <fieldset>
-	
+	<legend>Datos de contacto</legend>
 
 		<label>mail</label>		
 		<input type="text" id="mail" name="mail" value="{{usuario.mail}}">
@@ -161,7 +162,7 @@
 
 
 <fieldset class="persona">
-
+	<legend>Datos Personales</legend>
 
 		<label>Fecha de Nacimiento</label>		
 		<input type="text" id="fecha_nacimiento" name="fecha_nacimiento" value="{{usuario.fecha_nacimiento}}">
@@ -198,7 +199,7 @@
 
 </fieldset>
 <fieldset>
-		
+	<legend>Notas</legend>
 		<textarea id="observaciones" name="observaciones" >{{usuario.observaciones}}</textarea>
 
 	</fieldset>
@@ -206,45 +207,141 @@
 <input name="enviar" type="submit" />
 </form>
 
+<div id="bloqueDirecciones">
+{% if direcciones != null %}
+	<form action="?controller=DireccionesController&amp;action=updateTelefonos" name="direccionesForm" id="direccionesForm"  method="post" >
+	<fieldset>
+	<legend>Direcciones</legend>
+ 	<ul id="listadoDirecciones">
+	{% for direccion in direcciones %}
+		<li id="direccion_{{direccion.id_direccion}}">
+		<input type="hidden" name="id_direccion[]" id="id_direccion[]" value="{{direccion.id_direccion}}">
+		<input type="hidden" name="id_usuario[]" value="{{direccion.id_usuario}}">
+		<input type="text" name="alias[]" value="{{direccion.alias}}" />
+		<input type="text" name="direccion1[]" value="{{direccion.direccion1}}" />
+		<input type="text" name="direccion2[]" value="{{direccion.direccion2}}" />
+		<input type="text" name="cp[]" value="{{direccion.cp}}" />
+		<input type="text" name="localidad[]" value="{{direccion.localidad}}" />
+		<input type="text" name="provincia[]" value="{{direccion.provincia}}" />
+		<input type="text" name="pais[]" value="{{direccion.pais}}" />
+		<input type="text" name="orden_direccion[]" value="{{direccion.orden}}" maxlength="2" />
+		<a href="javascript:void(0)" id="removeDireccion_{{direccion.id_direccion}}" class="" onclick="removeDireccion({{direccion.id_direccion}})"><i class="icon-remove"></i> Borrar</a>
+		</li>
+	{% endfor %}
+	</ul>
+
+	<input type="button" name="enviarDireccionesForm" id="enviarDireccionesForm" value="Actualizar Direccioens">
+	</fieldset>
+	</form>
+{% endif %}	
+</div>
+{% if usuario.id_usuario %}
+<p><a href="javascript:void(0)" class="btn btn-success" name="anadirDireccion" id="anadirDireccion"><i class="icon-plus"></i> Añadir nueva Dirección</a></p>
+<form action="?controller=DireccionesController&amp;action=add"  method="post" id="nuevaDireccion" style="display:none" >
+<ul>
+	<li>		
+		<input type="hidden" name="id_usuario" id="id_usuario_direccion" value="{{usuario.id_usuario}}">
+		
+		<input type="text" name="alias" id="alias_direccion" />
+		
+		<input type="text" name="direccion1" id="direccion1"  />
+
+		<input type="text" name="direccion2" id="direccion2" />
+
+		<input type="text" name="cp" id="cp"/>
+
+		<input type="text" name="localidad" id="localidad"  />
+
+		<input type="text" name="provincia" id="provincia"  />
+
+		<input type="text" name="pais" id="pais"  />
+		
+		<input type="text" name="orden" id="orden_direccion" maxlength="2" />
+	</li>
+</ul>	
+<input type="button" value="Añadir Dirección" id="addDireccion">
+</form>
+{% endif %}
+
+
+
+
 {% if telefonos != null%}
 	<form action="?controller=TelefonosController&amp;action=updateTelefonos" name="telefonosForm" id="telefonosForm"  method="post" >
+	<fieldset>
+	<legend>Teléfonos</legend>
  	<ul>
 	{% for telefono in telefonos %}
-		<li>
-		<input type="hidden" name="id_telefono[]" id="id_telefono[]" value="{{telefono.id_telefono}}">
+		<li id="telefono_{{telefono.id_telefono}}">
+		<input type="hidden" name="id_telefono[]"  value="{{telefono.id_telefono}}">
 		<input type="hidden" name="id_usuario[]" value="{{telefono.id_usuario}}">
 		<input type="text" name="etiqueta[]" value="{{telefono.etiqueta}}" />
 		<input type="text" name="telefono[]" value="{{telefono.telefono}}" />
 		<input type="text" name="orden_telefono[]" value="{{telefono.orden}}" maxlength="2" />
+		<a href="javascript:void(0)" id="removeTelefono_{{telefono.id_telefono}}" class="" onclick="removeTelefono({{telefono.id_telefono}})"><i class="icon-remove"></i> Borrar</a>
 		</li>
 	{% endfor %}
 	</ul>
-	<input type="button" name="enviarTelefonosForm" id="enviarTelefonosForm" value="Actualizar telefónos">
-	</form>
-{% else %}	
-	añadir telefonos
-{% endif %}
 
+	<input type="button" name="enviarTelefonosForm" id="enviarTelefonosForm" value="Actualizar telefónos">
+	</fieldset>
+	</form>
+{% endif %}	
+{% if usuario.id_usuario %}
+<p><a href="javascript:void(0)" class="btn btn-success" name="anadirTelefono" id="anadirTelefono"><i class="icon-plus"></i> Añadir Teléfono</a></p>
+<form action="?controller=TelefonosController&amp;action=add"  method="post" id="nuevoTelefono" style="display:none" >
+<ul>
+	<li>		
+		<input type="hidden" name="id_usuario" value="{{usuario.id_usuario}}">
+		
+		<input type="text" name="etiqueta"  />
+		
+		<input type="text" name="telefono"  />
+		
+		<input type="text" name="orden"  maxlength="2" />
+	</li>
+</ul>	
+<input type="submit" value="Añadir telefóno">
+</form>
+{% endif %}
 
 {% if mails != null%}
 	<form action="?controller=MailsController&amp;action=updateMails" method="post" name="mailsForm" id="mailsForm" >
+	<fieldset>
+	<legend>Mails</legend>
  	<ul>
 	{% for mail in mails %}
-		<li>
+		<li id="mail_{{mail.id_mail}}">
 		<input type="hidden" name="id_mail[]" value="{{mail.id_mail}}">
 		<input type="hidden" name="id_usuario_mail[]" value="{{mail.id_usuario}}">
 		<input type="text" name="etiqueta_mail[]" value="{{mail.etiqueta}}" />
 		<input type="text" name="mail[]" value="{{mail.mail}}" />
 		<input type="text" name="orden_mail[]" value="{{mail.orden}}" maxlength="2" />
+		<a href="javascript:void(0)" id="removeMail{{mail.id_mail}}" class="" onclick="removeMail({{mail.id_mail}})"><i class="icon-remove"></i> Borrar</a>
 		</li>
 	{% endfor %}
 	</ul>
 	<input type="button" name="enviarMailsForm" id="enviarMailsForm" value="Actualizar mails">
+	</fieldset>
 	</form>
-{% else %}	
-	añadir Mails
+{% endif %}	
+{% if usuario.id_usuario %}
+<p><a href="javascript:void(0)" class="btn btn-success" name="anadirMail" id="anadirMail"><i class="icon-plus"></i> Añadir mail</a></p>
+<form action="?controller=MailsController&amp;action=add"  method="post" style="display:none" id="nuevoMail" >
+<ul>
+	<li>		
+		<input type="hidden" name="id_usuario" value="{{usuario.id_usuario}}">
+		
+		<input type="text" name="etiqueta"  />
+		
+		<input type="text" name="mail"  />
+		
+		<input type="text" name="orden"  maxlength="2" />
+	</li>
+</ul>	
+<input type="submit" value="Añadir Mail">
+</form>
 {% endif %}
-
 
 <p><a href="?">volver</a></p>
 {% endblock %} 

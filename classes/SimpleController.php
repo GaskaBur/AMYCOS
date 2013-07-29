@@ -35,16 +35,40 @@ class SimpleController {
 	genera una lista con todo el contenido de la tabla asociada al controlador a traves del 
 	template listasimple.html
 	*/
-	public function genList($error = false)
+	public function genList($error = false, $query = null, $from = null,$where = null)
 	{
-		$clase = new $this->class();
+		$clase = new $this->class();	
+		if ($from == null)
+			$from = strtolower($this->class);
+				
+		if ($query == null)
+		{
+			$listado = $clase->getAll();
+		}
+		else
+		{
+			if ($where == null)
+				$listado = DB::getInstance()->executeQ(sprintf("select %s from %s",$query,$from));
+			else
+				$listado = DB::getInstance()->executeQ(sprintf("select %s from %s where %s",$query,$from,$where));				
+		}
+		
+		$filtro = false;
+		if (isset($clase->needFilter))
+		{
+			//Generar filtro
+			$filtro = 1;
+		}
+		
+			
 
 		echo $this->twig->render('listasimple.html', array(
 				'error' => $error,
-				'listado' => $clase->getAll(),
+				'listado' => $listado,
 				'clase' => 'Mantenimiento tabla:  '.$this->class,
 				'id' => 'id_'.strtolower($this->class),
 				'controller' => $this->controller,
+				'filtro' => $filtro,
 		));
 	}
 
@@ -122,6 +146,24 @@ class SimpleController {
 			}
 		}
 		
+	}
+
+	public function ajasAdd()
+	{
+		$clase = new $this->class();
+		$error = false;
+		foreach ($_POST as $pst => $value) {
+			if (isset($clase->definition['fields'][$pst]['isRequired']))
+			{
+				if ($value == "")
+					$error = true;
+			}
+			$clase->$pst = utf8_encode($value);
+		}
+		if (!$error)
+			print($clase->add());
+		else
+			print(-1);
 	}
 	
 }
