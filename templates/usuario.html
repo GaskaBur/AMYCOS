@@ -19,9 +19,9 @@
 {% endblock %}
 {% block content %}
 {% if usuario.id_usuario > 0 %}
-<form action="?controller=UsuarioController&amp;action=add&amp;id={{usuario.id_usuario}}" method="post">
+<form action="?controller={{controller}}&amp;action=add&amp;id={{usuario.id_usuario}}" method="post">
 {% else %}
-<form action="?controller=UsuarioController&amp;action=add" method="post">
+<form action="?controller={{controller}}&amp;action=add" method="post">
 {% endif %}
 <fieldset>
 	<legend>Datos Generales</legend>
@@ -225,7 +225,7 @@
 		<input type="text" name="provincia[]" value="{{direccion.provincia}}" />
 		<input type="text" name="pais[]" value="{{direccion.pais}}" />
 		<input type="text" name="orden_direccion[]" value="{{direccion.orden}}" maxlength="2" />
-		<a href="javascript:void(0)" id="removeDireccion_{{direccion.id_direccion}}" class="" onclick="removeDireccion({{direccion.id_direccion}})"><i class="icon-remove"></i> Borrar</a>
+		<a href="javascript:void(0)" id="removeDireccion_{{direccion.id_direccion}}" class="" onclick="removeDireccion({{direccion.id_direccion}})"><span class="glyphicon glyphicon-remove"></span> Borrar</a>
 		</li>
 	{% endfor %}
 	</ul>
@@ -237,40 +237,38 @@
 </div>
 {% if usuario.id_usuario %}
 <p><a href="javascript:void(0)" class="btn btn-success" name="anadirDireccion" id="anadirDireccion"><i class="icon-plus"></i> Añadir nueva Dirección</a></p>
-<form action="?controller=DireccionesController&amp;action=add"  method="post" id="nuevaDireccion" style="display:none" >
-<ul>
-	<li>		
+<form action="?controller=DireccionesController&amp;action=add"  method="post" id="nuevaDireccion" style="display:none;border:1px solid #ccc" >
+		
 		<input type="hidden" name="id_usuario" id="id_usuario_direccion" value="{{usuario.id_usuario}}">
-		
+		<label>Nombre para esta dirección</label>
 		<input type="text" name="alias" id="alias_direccion" />
-		
+		<label>Domicilio</label>
 		<input type="text" name="direccion1" id="direccion1"  />
-
+		<label>Domicilio + info </label>
 		<input type="text" name="direccion2" id="direccion2" />
-
+		<label>Código postal</label>
 		<input type="text" name="cp" id="cp"/>
-
+		<label>localidad</label>
 		<input type="text" name="localidad" id="localidad"  />
-
+		<label>provincia</label>
 		<input type="text" name="provincia" id="provincia"  />
-
+		<label>pais</label>
 		<input type="text" name="pais" id="pais"  />
-		
+		<label>orden</label>
 		<input type="text" name="orden" id="orden_direccion" maxlength="2" />
-	</li>
-</ul>	
+	
 <input type="button" value="Añadir Dirección" id="addDireccion">
 </form>
 {% endif %}
 
 
 
-
+<div id="bloqueTelefonos">
 {% if telefonos != null%}
 	<form action="?controller=TelefonosController&amp;action=updateTelefonos" name="telefonosForm" id="telefonosForm"  method="post" >
 	<fieldset>
 	<legend>Teléfonos</legend>
- 	<ul>
+ 	<ul id="listadoTelefonos">
 	{% for telefono in telefonos %}
 		<li id="telefono_{{telefono.id_telefono}}">
 		<input type="hidden" name="id_telefono[]"  value="{{telefono.id_telefono}}">
@@ -278,7 +276,7 @@
 		<input type="text" name="etiqueta[]" value="{{telefono.etiqueta}}" />
 		<input type="text" name="telefono[]" value="{{telefono.telefono}}" />
 		<input type="text" name="orden_telefono[]" value="{{telefono.orden}}" maxlength="2" />
-		<a href="javascript:void(0)" id="removeTelefono_{{telefono.id_telefono}}" class="" onclick="removeTelefono({{telefono.id_telefono}})"><i class="icon-remove"></i> Borrar</a>
+		<a href="javascript:void(0)" id="removeTelefono_{{telefono.id_telefono}}" class="" onclick="removeTelefono({{telefono.id_telefono}})"><span class="glyphicon glyphicon-remove"></span> Borrar</a>
 		</li>
 	{% endfor %}
 	</ul>
@@ -287,29 +285,30 @@
 	</fieldset>
 	</form>
 {% endif %}	
+</div>
 {% if usuario.id_usuario %}
 <p><a href="javascript:void(0)" class="btn btn-success" name="anadirTelefono" id="anadirTelefono"><i class="icon-plus"></i> Añadir Teléfono</a></p>
-<form action="?controller=TelefonosController&amp;action=add"  method="post" id="nuevoTelefono" style="display:none" >
-<ul>
-	<li>		
-		<input type="hidden" name="id_usuario" value="{{usuario.id_usuario}}">
+<form action="?controller=TelefonosController&amp;action=add"  method="post" id="nuevoTelefono" style="display:none;border:1px solid #ccc" >
 		
-		<input type="text" name="etiqueta"  />
-		
-		<input type="text" name="telefono"  />
-		
-		<input type="text" name="orden"  maxlength="2" />
-	</li>
-</ul>	
-<input type="submit" value="Añadir telefóno">
+		<input id_usuario type="hidden" name="id_usuario" id="id_usuario_telefono" value="{{usuario.id_usuario}}">
+		<label>etiqueta</label>
+		<input type="text" name="etiqueta" id="etiqueta_telefono"  />
+		<label>número tfno.</label>
+		<input type="text" name="telefono" id="telefono"  />
+		<label>orden</label>
+		<input type="text" name="orden" id="orden_telefono"  maxlength="2" />
+	
+<input type="button" value="Añadir telefóno" id="addTelefono">
 </form>
 {% endif %}
 
+
+<div id="bloqueMails">
 {% if mails != null%}
 	<form action="?controller=MailsController&amp;action=updateMails" method="post" name="mailsForm" id="mailsForm" >
 	<fieldset>
 	<legend>Mails</legend>
- 	<ul>
+ 	<ul id="listadoMails">
 	{% for mail in mails %}
 		<li id="mail_{{mail.id_mail}}">
 		<input type="hidden" name="id_mail[]" value="{{mail.id_mail}}">
@@ -317,7 +316,7 @@
 		<input type="text" name="etiqueta_mail[]" value="{{mail.etiqueta}}" />
 		<input type="text" name="mail[]" value="{{mail.mail}}" />
 		<input type="text" name="orden_mail[]" value="{{mail.orden}}" maxlength="2" />
-		<a href="javascript:void(0)" id="removeMail{{mail.id_mail}}" class="" onclick="removeMail({{mail.id_mail}})"><i class="icon-remove"></i> Borrar</a>
+		<a href="javascript:void(0)" id="removeMail{{mail.id_mail}}" class="" onclick="removeMail({{mail.id_mail}})"><span class="glyphicon glyphicon-remove"></span> Borrar</a>
 		</li>
 	{% endfor %}
 	</ul>
@@ -325,21 +324,23 @@
 	</fieldset>
 	</form>
 {% endif %}	
+</div>
 {% if usuario.id_usuario %}
 <p><a href="javascript:void(0)" class="btn btn-success" name="anadirMail" id="anadirMail"><i class="icon-plus"></i> Añadir mail</a></p>
-<form action="?controller=MailsController&amp;action=add"  method="post" style="display:none" id="nuevoMail" >
+<form action="?controller=MailsController&amp;action=add"  method="post" style="display:none;border:1px solid #ccc" id="nuevoMail" >
 <ul>
 	<li>		
-		<input type="hidden" name="id_usuario" value="{{usuario.id_usuario}}">
 		
-		<input type="text" name="etiqueta"  />
-		
-		<input type="text" name="mail"  />
-		
-		<input type="text" name="orden"  maxlength="2" />
+		<input type="hidden" name="id_usuario" id="id_usuario_mail" value="{{usuario.id_usuario}}">
+		<label>etiqueta</label>
+		<input type="text" name="etiqueta" id="etiqueta_mail"  />
+		<label>nuevo mail</label>
+		<input type="text" name="mail_nuevo" id="mail_nuevo"  />
+		<label>orden</label>
+		<input type="text" name="orden" id="orden_mail"  maxlength="2" />
 	</li>
 </ul>	
-<input type="submit" value="Añadir Mail">
+<input type="button" value="Añadir Mail" id="addMail">
 </form>
 {% endif %}
 

@@ -1,10 +1,9 @@
 {% extends 'template.html' %}
 
-{% if filtro %}
-	{% block filtro %}
-		<p>{{filtro}}</p>
-    {% endblock %}    
-{% endif %}
+{% block filtro %}
+	{% include filtro %}
+{% endblock %}    
+
 {% block content %}
 
 {{ parent() }}
@@ -15,27 +14,31 @@
 EXISTE ERRORES
 {% endif%}
 <p><a href="?controller={{controller}}&action=addForm" class="btn btn-success"><i class="icon-plus"></i> Añadir</a></p>
-<table border="1" paddint="3">
+<table border="1" padding="3">
 	
+	<thead>
 		<tr>
 		{% for key,ele in listado[0] %}
-			<td>{{key}}</td>
+			<th><a href="?controller={{controller}}&amp;action=order&amp;key={{key}}">{{key}}</a></th>
 		{% endfor %}
 		</tr>
+	</thead>
 	
 
-
+	<tbody>
 	{% for elemento in listado %}
+	
 		
 		<tr>
 		{% for key,ele in elemento %}
-			<td>{{ele|convert_encoding('UTF-8', 'UTF-8') }}</td>
+			<td><a href="?controller={{controller}}&action=addForm&id={{elemento[(id)]}}" class="">{{ele|convert_encoding('UTF-8', 'UTF-8') }}</a></td>
 		{% endfor %}
-		<td><a href="?controller={{controller}}&action=addForm&id={{elemento[(id)]}}" class=""><i class="icon-edit"></i> Editar</a></td>	
-		<td><a href="?controller={{controller}}&action=del&id={{elemento[(id)]}}" class=""><i class="icon-remove"></i> Borrar</a></td>	
+		<td><a href="?controller={{controller}}&action=addForm&id={{elemento[(id)]}}" class=""><span class="glyphicon glyphicon-edit"></span> Editar</a></td>	
+		<td><a href="?controller={{controller}}&action=del&id={{elemento[(id)]}}" class=""><span class="glyphicon glyphicon-remove"></span> Borrar</a></td>	
        	</tr>
 
 	{% endfor %}
+	</tbody>
 </table>
 <p><a href="?"><i class="icon-arrow-left"></i> Volver</a></p>
 {% endblock %} 

@@ -153,28 +153,43 @@ class Usuario extends Model {
 			'tipo_usuario' => array(
 				'type' => TYPE_INT, 
 				'isRequired' => true),
+
 			'fecha_alta' => array('type' => TYPE_DATE),
+
 			'id_tipo_alta' => array(
 				'type' => TYPE_INT, 
 				'isRequired' => true,
 				'filter' => true,
 				'tableFilter' => 'tipos_alta',
 				'fieldFilter' => 'descripcion'),
-			'nombre' => array('type' => TYPE_STRING, 'isRequired' => true),
+
+			'nombre' => array('type' => TYPE_STRING, 'isRequired' => true, 'filter' => true),
+
 			'nombre_corto' => array('type' => TYPE_STRING),
+
 			'id_categoria_usuario' => array(
 				'type' => TYPE_INT, 
 				'filter' => true, 
 				'tableFilter' => 'categorias_usuario', 
 				'fieldFilter' => 'descripcion'),
-			'id_rol' => array('type' => TYPE_INT),
+
+			'id_rol' => array('type' => TYPE_INT,
+				'filter' => true,
+				'tableFilter' => 'roles',
+				'fieldFilter' => 'descripcion'),
+
 			'id_delegacion' => array('type' => TYPE_INT),
 			'web' => array('type' => TYPE_STRING),
 			'cif' => array('type' => TYPE_STRING),
-			'primer_apellido' => array('type' => TYPE_STRING),
-			'segundo_apellido' => array('type' => TYPE_STRING),
-			'nacionalidad' => array('type' => TYPE_STRING),
+
+			'primer_apellido' => array('type' => TYPE_STRING, 'filter' => true),
+
+			'segundo_apellido' => array('type' => TYPE_STRING, 'filter' => true),
+
+			'nacionalidad' => array('type' => TYPE_STRING, 'filter' => true),
+
 			'fecha_nacimiento' => array('type' => TYPE_DATE, 'filter' => true),
+
 			'genero' => array('type' => TYPE_STRING),
 			'tratamiento' => array('type' => TYPE_STRING),
 			'tfno_fijo' => array('type' => TYPE_STRING),
@@ -186,19 +201,32 @@ class Usuario extends Model {
 			'como_conocido' => array('type' => TYPE_STRING),
 			'id_estudios' => array('type' => TYPE_INT),
 			'id_profesion' => array('type' => TYPE_INT),
-			'suscriptor' => array('type' => TYPE_BOOL),
+
+			'suscriptor' => array('type' => TYPE_BOOL,'filter' => true),
+
 			'proveedor' => array('type' => TYPE_BOOL),
-			'socio_local' => array('type' => TYPE_BOOL),
-			'prg_becas_old' => array('type' => TYPE_BOOL),
+
+			'socio_local' => array('type' => TYPE_BOOL,'filter' => true),
+
+			'prg_becas_old' => array('type' => TYPE_BOOL,'filter' => true),
+
 			'becas_fecha_in' => array('type' => TYPE_DATE),
 			'becas_fecha_out' => array('type' => TYPE_DATE),
-			'colaborador_old' => array('type' => TYPE_BOOL),
-			'donante_old' => array('type' => TYPE_BOOL),
+
+			'colaborador_old' => array('type' => TYPE_BOOL,'filter' => true),
+
+			'donante_old' => array('type' => TYPE_BOOL,'filter' => true),
+			
 			'numero_cuenta' => array('type' => TYPE_STRING),
+
 			'estado' => array('type' => TYPE_BOOL, 'filter' => true),
+
 			'observaciones' => array('type' => TYPE_STRING),
+
 			'activo' => array('type' => TYPE_BOOL, 'filter' => true),
-			'administrador' => array('type' => TYPE_BOOL),
+
+			'administrador' => array('type' => TYPE_BOOL,'filter' => true),
+
 			'pass' => array('type' => TYPE_MD5),
 			
 

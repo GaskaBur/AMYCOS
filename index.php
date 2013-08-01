@@ -32,6 +32,16 @@ require_once_dir( 'utils' );	#Incluye todos los .pnp de la carpeta utils -> util
 include('lib/xmlSimpleParser.php'); 	#Esta librería permite parsear url
 include('lib/includeTwig.php');			#Uso de plantillas Twig
 
+
+$twig->addGlobal('Estudio', new Estudio);
+$twig->addGlobal('Profesion', new Profesion);
+$twig->addGlobal('Mail', new Mail);
+$twig->addGlobal('Telefono', new Telefono);
+$twig->addGlobal('Categoria_Usuario', new Categoria_Usuario);
+$twig->addGlobal('Tipo_Alta', new Tipo_Alta);
+$twig->addGlobal('Rol', new Rol);
+$twig->addGlobal('COOKIE', $_COOKIE);
+
 require_once('dispatcher.php');
 ?>
 

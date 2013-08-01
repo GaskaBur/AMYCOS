@@ -29,7 +29,7 @@ class UsuarioController extends SimpleController {
 	/*
 	genera una lista con todo el contenido de la tabla asociada al controlador
 	*/
-	public function genList($error = false, $template = null, $from = null,$where = null)
+	public function genList($error = false, $template = null, $from = null,$where = null,$filtro = false)
 	{
 		$query = sprintf("%s,%s,%s",'id_usuario','nombre','estado' );
 		parent::genList($error,null,$query,' activo = 1');
@@ -62,6 +62,21 @@ class UsuarioController extends SimpleController {
 			'usuario' => $usuario,
 			'direcciones' => $direcciones,
 		));
+	}
+
+	public function add($return = null){
+		$id = parent::add(1);
+
+		if (isset($_POST['mail']))
+		{
+			if ($_POST['mail'] != '')
+			{
+				$mail = new Mail();
+				$mail->id_usuario = $id;
+				$mail->mail = $_POST['mail'];
+				$mail->add();
+			}
+		}
 	}
 
 
