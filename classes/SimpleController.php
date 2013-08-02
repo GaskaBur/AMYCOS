@@ -37,6 +37,7 @@ class SimpleController {
 	*/
 	public function genList($error = false, $query = null, $from = null,$where = null,$filtro = 'nullfilter.html',$pages=0,$page_actual=-1)
 	{
+		
 		$consulta = "";
 		$clase = new $this->class();	
 		

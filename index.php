@@ -26,6 +26,7 @@ require_once_dir( 'models/DB'); #Incluye Motor para conectar con Base de datos.
 require_once_dir( 'models');  
 require_once_dir( 'classes' ); 	#Incluye todos los .php de la carpeta classes (Clases necesarias propias de la app)
 require_once_dir( 'controllers'); #Incluye todos los .php de la carpeta controlles (Controllers necesarios en la app)
+require_once_dir( 'UsuarioControllers'); #Incluye todos los .php de la carpeta UsuarioControllers (Controllers que extienden de UsuarioController)
 
 //LIBRERIAS - Incluyo las librerías necesarias ------------------------------------------------------------------------------		  
 

@@ -12,7 +12,7 @@
 <form id="filtroUsuario" action="?controller={{controller}}&amp;action=filter" method="post">
 <fieldset>
 	
-	{% if controller == "PersonaController" %}
+	{% if controller != "OrganizacionController" %}
 	<label>fecha de nacimiento (desde-hasta)</label>
 	<input type="text" name="filtro_fecha_nacimiento_desde" id="filtro_fecha_nacimiento_desde" value="{{COOKIE.filtro_fecha_nacimiento_desde}}">
 	<input type="text" name="filtro_fecha_nacimiento_hasta" id="filtro_fecha_nacimiento_hasta" value="{{COOKIE.filtro_fecha_nacimiento_hasta}}">
