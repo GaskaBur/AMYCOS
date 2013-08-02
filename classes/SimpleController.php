@@ -35,26 +35,35 @@ class SimpleController {
 	genera una lista con todo el contenido de la tabla asociada al controlador a traves del 
 	template listasimple.html
 	*/
-	public function genList($error = false, $query = null, $from = null,$where = null,$filtro = 'nullfilter.html')
+	public function genList($error = false, $query = null, $from = null,$where = null,$filtro = 'nullfilter.html',$pages=0,$page_actual=-1)
 	{
+		$consulta = "";
 		$clase = new $this->class();	
+		
 		if ($from == null)
 			$from = strtolower($this->class);
 				
 		if ($query == null)
 		{
 			$listado = $clase->getAll();
+			$consulta = sprintf('SELECT %s FROM %s','*',$clase->definition['table']);
 		}
-
 		else
 		{
 			//print(sprintf("select %s from %s where %s",$query,$from,$where));
 			if ($where == null)
+			{
+				$consulta = sprintf("select %s from %s",$query,$from);
+				$consulta =  substr($consulta, 0,strrpos($consulta, "LIMIT"));
 				$listado = DB::getInstance()->executeQ(sprintf("select %s from %s",$query,$from));
+			}
 			else
+			{
+				$consulta = sprintf("select %s from %s where %s",$query,$from,$where);
+				$consulta =  substr($consulta, 0,strrpos($consulta, "LIMIT"));
 				$listado = DB::getInstance()->executeQ(sprintf("select %s from %s where %s",$query,$from,$where));				
-		}
-		
+			}
+		}		
 		
 		echo $this->twig->render('listasimple.html', array(
 				'error' => $error,
@@ -63,6 +72,9 @@ class SimpleController {
 				'id' => 'id_'.strtolower($this->class),
 				'controller' => $this->controller,
 				'filtro' => $filtro,
+				'paginas' => $pages,
+				'actual' => $page_actual,
+				'consulta' => $consulta,
 		));
 	}
 

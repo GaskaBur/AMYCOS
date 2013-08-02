@@ -28,7 +28,7 @@ class MailsController extends SimpleController {
 			$mail = new Mail($value);
 			$mail->id_usuario = $id_usuario_mail[$i];
 			$mail->etiqueta = $etiqueta_mail[$i];
-			$mail->telefono = $mails[$i];
+			$mail->mail = $mails[$i];
 			$mail->orden = $orden_mail[$i];
 			$mail->update($value);
 			$i++;

@@ -204,7 +204,7 @@
 
 	</fieldset>
 
-<input name="enviar" type="submit" />
+<input class="btn btn-success" name="enviar" type="submit" />
 </form>
 
 <div id="bloqueDirecciones">
@@ -217,14 +217,14 @@
 		<li id="direccion_{{direccion.id_direccion}}">
 		<input type="hidden" name="id_direccion[]" id="id_direccion[]" value="{{direccion.id_direccion}}">
 		<input type="hidden" name="id_usuario[]" value="{{direccion.id_usuario}}">
-		<input type="text" name="alias[]" value="{{direccion.alias}}" />
-		<input type="text" name="direccion1[]" value="{{direccion.direccion1}}" />
-		<input type="text" name="direccion2[]" value="{{direccion.direccion2}}" />
-		<input type="text" name="cp[]" value="{{direccion.cp}}" />
-		<input type="text" name="localidad[]" value="{{direccion.localidad}}" />
-		<input type="text" name="provincia[]" value="{{direccion.provincia}}" />
-		<input type="text" name="pais[]" value="{{direccion.pais}}" />
-		<input type="text" name="orden_direccion[]" value="{{direccion.orden}}" maxlength="2" />
+		<label>etiqueta</label><input type="text" name="alias[]" value="{{direccion.alias}}" />
+		<label>domicilio</label><input type="text" name="direccion1[]" value="{{direccion.direccion1}}" />
+		<label>domicilio + info</label><input type="text" name="direccion2[]" value="{{direccion.direccion2}}" />
+		<label>código postal</label><input type="text" name="cp[]" value="{{direccion.cp}}" />
+		<label>localidad</label><input type="text" name="localidad[]" value="{{direccion.localidad}}" />
+		<label>provincia</label><input type="text" name="provincia[]" value="{{direccion.provincia}}" />
+		<label>Pais</label><input type="text" name="pais[]" value="{{direccion.pais}}" />
+		<label>orden</label><input type="text" name="orden_direccion[]" value="{{direccion.orden}}" maxlength="2" />
 		<a href="javascript:void(0)" id="removeDireccion_{{direccion.id_direccion}}" class="" onclick="removeDireccion({{direccion.id_direccion}})"><span class="glyphicon glyphicon-remove"></span> Borrar</a>
 		</li>
 	{% endfor %}
@@ -273,9 +273,9 @@
 		<li id="telefono_{{telefono.id_telefono}}">
 		<input type="hidden" name="id_telefono[]"  value="{{telefono.id_telefono}}">
 		<input type="hidden" name="id_usuario[]" value="{{telefono.id_usuario}}">
-		<input type="text" name="etiqueta[]" value="{{telefono.etiqueta}}" />
-		<input type="text" name="telefono[]" value="{{telefono.telefono}}" />
-		<input type="text" name="orden_telefono[]" value="{{telefono.orden}}" maxlength="2" />
+		<label>etiqueta </label><input type="text" name="etiqueta[]" value="{{telefono.etiqueta}}" />
+		<label>teléfono </label><input type="text" name="telefono[]" value="{{telefono.telefono}}" />
+		<label>orden </label><input type="text" name="orden_telefono[]" value="{{telefono.orden}}" maxlength="2" />
 		<a href="javascript:void(0)" id="removeTelefono_{{telefono.id_telefono}}" class="" onclick="removeTelefono({{telefono.id_telefono}})"><span class="glyphicon glyphicon-remove"></span> Borrar</a>
 		</li>
 	{% endfor %}
@@ -313,9 +313,9 @@
 		<li id="mail_{{mail.id_mail}}">
 		<input type="hidden" name="id_mail[]" value="{{mail.id_mail}}">
 		<input type="hidden" name="id_usuario_mail[]" value="{{mail.id_usuario}}">
-		<input type="text" name="etiqueta_mail[]" value="{{mail.etiqueta}}" />
-		<input type="text" name="mail[]" value="{{mail.mail}}" />
-		<input type="text" name="orden_mail[]" value="{{mail.orden}}" maxlength="2" />
+		<label>etiqueta </label><input type="text" name="etiqueta_mail[]" value="{{mail.etiqueta}}" />
+		<label>mail </label><input type="text" name="mail[]" value="{{mail.mail}}" />
+		<label>orden </label><input type="text" name="orden_mail[]" value="{{mail.orden}}" maxlength="2" />
 		<a href="javascript:void(0)" id="removeMail{{mail.id_mail}}" class="" onclick="removeMail({{mail.id_mail}})"><span class="glyphicon glyphicon-remove"></span> Borrar</a>
 		</li>
 	{% endfor %}
@@ -335,7 +335,7 @@
 		<label>etiqueta</label>
 		<input type="text" name="etiqueta" id="etiqueta_mail"  />
 		<label>nuevo mail</label>
-		<input type="text" name="mail_nuevo" id="mail_nuevo"  />
+		<input type="text" name="mail" id="mail_nuevo"  />
 		<label>orden</label>
 		<input type="text" name="orden" id="orden_mail"  maxlength="2" />
 	</li>

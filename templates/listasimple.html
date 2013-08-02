@@ -13,6 +13,9 @@
 {% if error%}
 EXISTE ERRORES
 {% endif%}
+{% if consulta != "" %}
+	<a href="?controller=ExcellController&amp;action=create&amp;q={{consulta}}&amp;n=excell" style="float:right"><img src="templates/img/excell.jpg" />Exportar</a>
+{% endif %}
 <p><a href="?controller={{controller}}&action=addForm" class="btn btn-success"><i class="icon-plus"></i> Añadir</a></p>
 <table border="1" padding="3">
 	
@@ -40,5 +43,11 @@ EXISTE ERRORES
 	{% endfor %}
 	</tbody>
 </table>
+{% if paginas > 1 %}
+	{% for i in 1..paginas %}
+	 	<a href="?controller={{controller}}&amp;action=genList&amp;page={{i - 1}}">{% if i == actual + 1 %}<strong>{{i}}</strong>{% else %}{{i}}{% endif %}</a>
+	{% endfor %}
+{% endif %}
+
 <p><a href="?"><i class="icon-arrow-left"></i> Volver</a></p>
 {% endblock %} 

@@ -13,11 +13,12 @@ class PersonaController extends SimpleController {
 	/*
 	genera una lista con todo el contenido de la tabla asociada al controlador
 	*/
-	public function genList($error = false, $template = null,$from = null,$where = null,$filtro = false)
+	public function genList($error = false, $template = null,$from = null,$where = null,$filtro = false, $page = 0, $page_actual = -1)
 	{
 		#$query contine los campos SELECT de la consulta
 		$actual = 0;
-		$unidades = 20;
+		if (isset($_GET['page']))
+			$actual = $_GET['page'];
 		$paginas = 0;
 
 		$query = sprintf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
@@ -41,24 +42,42 @@ class PersonaController extends SimpleController {
 		$from .= 'LEFT JOIN donaciones AS don ON don.id_usuario = us.id_usuario ';
 		$from .= 'LEFT JOIN colaboraciones AS col ON col.id_usuario = us.id_usuario ';
 
-		if ($_COOKIE['filtro_usuario'] != '')
-			$where = ($_COOKIE['filtro_usuario']).' and us.tipo_usuario = 0 GROUP BY us.nombre ';
-		else
-			$where = ' us.activo = 1 AND us.tipo_usuario = 0 GROUP BY us.nombre ';
-
-		if ($_COOKIE['usuario_orden'] != '')
-			$where .= 'ORDER BY '.$_COOKIE['usuario_orden'];
+		$where = ' us.activo = 1 AND us.tipo_usuario = 0 GROUP BY us.id_usuario ';
+		if (isset($_COOKIE['filtro_usuario']))
+		{
+			if ($_COOKIE['filtro_usuario'] != '')
+				$where = ($_COOKIE['filtro_usuario']).' and us.tipo_usuario = 0 GROUP BY us.id_usuario ';
+		}
+				
+		
+		if (isset($_COOKIE['usuario_orden']))
+		{
+			if ($_COOKIE['usuario_orden'] != '')
+				$where .= 'ORDER BY '.$_COOKIE['usuario_orden'];
+		}
 		else
 			$where .= 'ORDER BY us.id_usuario';
+			
 
-		$where .= ' LIMIT 0,'.$unidades;
+		
+		$q = sprintf('SELECT %s FROM %s WHERE %s',$query,$from,$where);
+		$array = DB::getInstance()->executeQ($q);
+		$registros = count($array);		
+		$paginas = $registros / PAGINAS_USUARIOS;
+		$paginas = (int)$paginas;
+		if (($registros / PAGINAS_USUARIOS ) > $paginas)
+			$paginas ++;
+		
 
+		$where .= ' LIMIT '.($actual * PAGINAS_USUARIOS).','.PAGINAS_USUARIOS;
 		parent::genList(
 			$error,
 			$query,
 			$from,
 			$where,
-			'filtroUsuario.html');
+			'filtroUsuario.html',
+			$paginas,
+			$actual);
 	}	
 	
 	public function addForm()

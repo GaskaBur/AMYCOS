@@ -14,4 +14,6 @@ const TYPE_DATE = 5;
 const TYPE_HTML = 6;
 const TYPE_NOTHING = 7;
 const TYPE_MD5= 8;
+
+const PAGINAS_USUARIOS = 7;
 ?>

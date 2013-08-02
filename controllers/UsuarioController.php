@@ -29,7 +29,7 @@ class UsuarioController extends SimpleController {
 	/*
 	genera una lista con todo el contenido de la tabla asociada al controlador
 	*/
-	public function genList($error = false, $template = null, $from = null,$where = null,$filtro = false)
+	public function genList($error = false, $template = null, $from = null,$where = null,$filtro = false, $page = 0, $page_actual = -1)
 	{
 		$query = sprintf("%s,%s,%s",'id_usuario','nombre','estado' );
 		parent::genList($error,null,$query,' activo = 1');
