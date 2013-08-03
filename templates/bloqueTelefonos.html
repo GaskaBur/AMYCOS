@@ -1,0 +1,38 @@
+<div id="bloqueTelefonos">
+{% if telefonos != null%}
+	<form action="?controller=TelefonosController&amp;action=updateTelefonos" name="telefonosForm" id="telefonosForm"  method="post" >
+	<fieldset>
+	<legend>Teléfonos</legend>
+ 	<ul id="listadoTelefonos">
+	{% for telefono in telefonos %}
+		<li id="telefono_{{telefono.id_telefono}}">
+		<input type="hidden" name="id_telefono[]"  value="{{telefono.id_telefono}}">
+		<input type="hidden" name="id_usuario[]" value="{{telefono.id_usuario}}">
+		<label>etiqueta </label><input type="text" name="etiqueta[]" value="{{telefono.etiqueta}}" />
+		<label>teléfono </label><input type="text" name="telefono[]" value="{{telefono.telefono}}" />
+		<label>orden </label><input type="text" name="orden_telefono[]" value="{{telefono.orden}}" maxlength="2" />
+		<a href="javascript:void(0)" id="removeTelefono_{{telefono.id_telefono}}" class="" onclick="removeTelefono({{telefono.id_telefono}})"><span class="glyphicon glyphicon-remove"></span> Borrar</a>
+		</li>
+	{% endfor %}
+	</ul>
+
+	<input type="button" name="enviarTelefonosForm" id="enviarTelefonosForm" value="Actualizar telefónos">
+	</fieldset>
+	</form>
+{% endif %}	
+</div>
+{% if usuario.id_usuario %}
+<p><a href="javascript:void(0)" class="btn btn-success" name="anadirTelefono" id="anadirTelefono"><i class="icon-plus"></i> Añadir Teléfono</a></p>
+<form action="?controller=TelefonosController&amp;action=add"  method="post" id="nuevoTelefono" style="display:none;border:1px solid #ccc" >
+		
+		<input id_usuario type="hidden" name="id_usuario" id="id_usuario_telefono" value="{{usuario.id_usuario}}">
+		<label>etiqueta</label>
+		<input type="text" name="etiqueta" id="etiqueta_telefono"  />
+		<label>número tfno.</label>
+		<input type="text" name="telefono" id="telefono"  />
+		<label>orden</label>
+		<input type="text" name="orden" id="orden_telefono"  maxlength="2" />
+	
+<input type="button" value="Añadir telefóno" id="addTelefono">
+</form>
+{% endif %}

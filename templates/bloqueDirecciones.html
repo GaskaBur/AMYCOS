@@ -1,0 +1,53 @@
+<div id="bloqueDirecciones">
+{% if direcciones != null %}
+	<form action="?controller=DireccionesController&amp;action=updateTelefonos" name="direccionesForm" id="direccionesForm"  method="post" >
+	<fieldset>
+	<legend>Direcciones</legend>
+ 	<ul id="listadoDirecciones">
+	{% for direccion in direcciones %}
+		<li id="direccion_{{direccion.id_direccion}}">
+		<input type="hidden" name="id_direccion[]" id="id_direccion[]" value="{{direccion.id_direccion}}">
+		<input type="hidden" name="id_usuario[]" value="{{direccion.id_usuario}}">
+		<label>etiqueta</label><input type="text" name="alias[]" value="{{direccion.alias}}" />
+		<label>domicilio</label><input type="text" name="direccion1[]" value="{{direccion.direccion1}}" />
+		<label>domicilio + info</label><input type="text" name="direccion2[]" value="{{direccion.direccion2}}" />
+		<label>código postal</label><input type="text" name="cp[]" value="{{direccion.cp}}" />
+		<label>localidad</label><input type="text" name="localidad[]" value="{{direccion.localidad}}" />
+		<label>provincia</label><input type="text" name="provincia[]" value="{{direccion.provincia}}" />
+		<label>Pais</label><input type="text" name="pais[]" value="{{direccion.pais}}" />
+		<label>orden</label><input type="text" name="orden_direccion[]" value="{{direccion.orden}}" maxlength="2" />
+		<a href="javascript:void(0)" id="removeDireccion_{{direccion.id_direccion}}" class="" onclick="removeDireccion({{direccion.id_direccion}})"><span class="glyphicon glyphicon-remove"></span> Borrar</a>
+		</li>
+	{% endfor %}
+	</ul>
+
+	<input type="button" name="enviarDireccionesForm" id="enviarDireccionesForm" value="Actualizar Direccioens">
+	</fieldset>
+	</form>
+{% endif %}	
+</div>
+{% if usuario.id_usuario %}
+<p><a href="javascript:void(0)" class="btn btn-success" name="anadirDireccion" id="anadirDireccion"><i class="icon-plus"></i> Añadir nueva Dirección</a></p>
+<form action="?controller=DireccionesController&amp;action=add"  method="post" id="nuevaDireccion" style="display:none;border:1px solid #ccc" >
+		
+		<input type="hidden" name="id_usuario" id="id_usuario_direccion" value="{{usuario.id_usuario}}">
+		<label>Nombre para esta dirección</label>
+		<input type="text" name="alias" id="alias_direccion" />
+		<label>Domicilio</label>
+		<input type="text" name="direccion1" id="direccion1"  />
+		<label>Domicilio + info </label>
+		<input type="text" name="direccion2" id="direccion2" />
+		<label>Código postal</label>
+		<input type="text" name="cp" id="cp"/>
+		<label>localidad</label>
+		<input type="text" name="localidad" id="localidad"  />
+		<label>provincia</label>
+		<input type="text" name="provincia" id="provincia"  />
+		<label>pais</label>
+		<input type="text" name="pais" id="pais"  />
+		<label>orden</label>
+		<input type="text" name="orden" id="orden_direccion" maxlength="2" />
+	
+<input type="button" value="Añadir Dirección" id="addDireccion">
+</form>
+{% endif %}

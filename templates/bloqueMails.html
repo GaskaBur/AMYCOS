@@ -1,0 +1,40 @@
+<div id="bloqueMails">
+{% if mails != null%}
+	<form action="?controller=MailsController&amp;action=updateMails" method="post" name="mailsForm" id="mailsForm" >
+	<fieldset>
+	<legend>Mails</legend>
+ 	<ul id="listadoMails">
+	{% for mail in mails %}
+		<li id="mail_{{mail.id_mail}}">
+		<input type="hidden" name="id_mail[]" value="{{mail.id_mail}}">
+		<input type="hidden" name="id_usuario_mail[]" value="{{mail.id_usuario}}">
+		<label>etiqueta </label><input type="text" name="etiqueta_mail[]" value="{{mail.etiqueta}}" />
+		<label>mail </label><input type="text" name="mail[]" value="{{mail.mail}}" />
+		<label>orden </label><input type="text" name="orden_mail[]" value="{{mail.orden}}" maxlength="2" />
+		<a href="javascript:void(0)" id="removeMail{{mail.id_mail}}" class="" onclick="removeMail({{mail.id_mail}})"><span class="glyphicon glyphicon-remove"></span> Borrar</a>
+		</li>
+	{% endfor %}
+	</ul>
+	<input type="button" name="enviarMailsForm" id="enviarMailsForm" value="Actualizar mails">
+	</fieldset>
+	</form>
+{% endif %}	
+</div>
+{% if usuario.id_usuario %}
+<p><a href="javascript:void(0)" class="btn btn-success" name="anadirMail" id="anadirMail"><i class="icon-plus"></i> Añadir mail</a></p>
+<form action="?controller=MailsController&amp;action=add"  method="post" style="display:none;border:1px solid #ccc" id="nuevoMail" >
+<ul>
+	<li>		
+		
+		<input type="hidden" name="id_usuario" id="id_usuario_mail" value="{{usuario.id_usuario}}">
+		<label>etiqueta</label>
+		<input type="text" name="etiqueta" id="etiqueta_mail"  />
+		<label>nuevo mail</label>
+		<input type="text" name="mail" id="mail_nuevo"  />
+		<label>orden</label>
+		<input type="text" name="orden" id="orden_mail"  maxlength="2" />
+	</li>
+</ul>	
+<input type="button" value="Añadir Mail" id="addMail">
+</form>
+{% endif %}

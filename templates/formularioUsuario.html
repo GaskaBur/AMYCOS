@@ -1,0 +1,177 @@
+<fieldset>
+	<legend>Datos Generales</legend>
+		<label>Tipo de Usuario</label>
+		<select id="tipo_usuario" name="tipo_usuario">
+			<option value="0">Persona</option>
+			<option value="1" {% if tipo_usuario == 1%}selected{% endif %}>Organización</option>
+		</select>
+		<br>
+        
+		<label>Tipo de Alta</label>
+		<select id="id_tipo_alta" name="id_tipo_alta">
+			{% for tipo in tipos_alta %}	
+				<option value="{{tipo.id_tipo_alta}}" {% if usuario.id_tipo_alta == tipo.id_tipo_alta %}selected{% endif %}>{{tipo.descripcion}}</option>
+			{% endfor %}
+		</select>
+
+
+
+		<div>
+			<label>nombre</label>		
+			<input type="text" id="nombre" name="nombre" value="{{usuario.nombre}}" >
+
+			<label>Delegación</label>
+			<select id="id_delegacion" name="id_delegacion">
+				<option value="0">---</option>
+				{% for delegacion in delegaciones %}	
+					<option value="{{delegacion.id_delegacion}}" {% if usuario.id_delegacion == delegacion.id_delegacion %}selected{% endif %}>{{delegacion.descripcion}}</option>
+				{% endfor %}
+			</select>
+
+			<div class="persona">
+				<label>Primer Apellido</label>
+				<input type="text" id="primer_apellido" name="primer_apellido" value="{{usuario.primer_apellido}}" >
+				<label>Segundo Apellido</label>
+				<input type="text" id="segundo_apellido" name="segundo_apellido" value="{{usuario.segundo_apellido}}" >
+			</div>
+			<div class="organizacion">
+				<label>Nombre corto</label>
+				<input type="text" id="nombre_corto" name="nombre_corto" value="{{usuario.nombre_corto}}">
+			</div>
+		</div>
+
+		<div>
+			<label>C.I.F.</label>		
+			<input type="text" id="cif" name="cif" value="{{usuario.cif}}">
+
+			<label>Número de Cuenta</label>		
+			<input type="text" id="numero_cuenta" name="numero_cuenta" value="{{usuario.numero_cuenta}}">
+
+			<label>Nacionalidad</label>		
+			<input type="text" id="nacionalidad" name="nacionalidad" value="{{usuario.nacionalidad}}">
+
+		</div>
+
+</fieldset>
+    
+<fieldset>
+	<legend>Estado del usuario</legend>
+
+		<label>Estado del usuario</label>
+		<select id="estado" name="estado">
+			<option value="0" {% if usuario.estado == 0%}selected{% endif %}>Pendiente de revisión</option>
+			<option value="1" {% if usuario.estado == 1%}selected{% endif %} >Aprobado</option>
+		</select>	
+
+		<br>
+
+		<label>Categoría del usuario</label>
+		<select id="id_categoria_usuario" name="id_categoria_usuario">
+			<option value="0" selected>---</option>
+			{% for categoria in categorias %}	
+				<option value="{{categoria.id_categoria_usuario}}" {% if usuario.id_categoria_usuario == categoria.id_categoria_usuario %}selected{% endif %}>{{categoria.descripcion}}</option>
+			{% endfor %}
+		</select>	
+
+		<label>Rol del usuario</label>
+		<select id="id_rol" name="id_rol">
+			<option value="0" selected>---</option>
+			{% for rol in roles %}	
+				<option value="{{rol.id_rol}}" {% if usuario.id_rol == rol.id_rol %}selected{% endif %}>{{rol.descripcion}}</option>
+			{% endfor %}
+		</select>	
+
+		<br>
+
+		<input type="checkbox" id="administrador" name="administrador" value="1" {% if usuario.administrador == 1 %}checked{% endif %}>Administrador<br>
+		<div id="divPass" style="display:none">
+			<label>Contraseña de administrador</label>		
+			<input type="password" id="pass" name="pass"  value="{{usuario.pass}}" >
+		</div>
+		<input type="checkbox" id="suscriptor" name="suscriptor" value="1" {% if usuario.suscriptor == 1 %}checked{% endif %}>Suscriptor<br>
+		<input type="checkbox" id="proveedor" name="proveedor" value="1" {% if usuario.proveedor == 1 %}checked{% endif %}>proveedor<br>
+		<input type="checkbox" id="socio_local" name="socio_local" value="1" {% if usuario.socio_local == 1 %}checked{% endif %} >Socio local<br>
+		<input type="checkbox" id="prg_becas_old" name="prg_becas_old" value="1" {% if usuario.prg_becas_old == 1 %}checked{% endif %}>Miembro del programa de becas en el sistema anterior<br>
+		<div id="fechasBecas" style="display:none">
+			<label>Fecha de Alta en el programa de becas</label>		
+			<input type="text" id="becas_fecha_in" name="becas_fecha_in"  value="{{usuario.becas_fecha_in}}">
+
+			<label>Fecha de Baja en el programa de becas</label>		
+			<input type="text" id="becas_fecha_out" name="becas_fecha_out"  value="{{usuario.becas_fecha_out}}">
+		</div>
+		<input type="checkbox" id="colaborador_old" name="colaborador_old" value="1" {% if usuario.colaborador_old == 1 %}checked{% endif %}>Colaborador en el sistema anterior<br>
+		<input type="checkbox" id="donante_old" name="donante_old" value="1" {% if usuario.donante_old == 1 %}checked{% endif %}>Donante en el sistema anterior<br>
+</fieldset>
+<fieldset>
+	<legend>Datos de contacto</legend>
+
+		<label>mail</label>		
+		<input type="text" id="mail" name="mail" value="{{usuario.mail}}">
+
+		<label>web</label>		
+		<input type="text" id="web" name="web" value="{{usuario.web}}">
+
+		<label>twitter</label>		
+		<input type="text" id="twitter" name="twitter" value="{{usuario.twitter}}">
+
+		<label>Teléfono fijo</label>		
+		<input type="text" id="tfno_fijo" name="tfno_fijo" value="{{usuario.tfno_fijo}}">
+
+		<label>Telefono movil</label>		
+		<input type="text" id="tfno_movil" name="tfno_movil" value="{{usuario.tfno_movil}}">
+
+		<label>Prefijo Internacional</label>		
+		<input type="text" id="pre_internacional" name="pre_internacional" value="{{usuario.pre_internacional}}">
+
+		<label>Horario de consulta</label>		
+		<input type="text" id="horario_consulta" name="horario_consulta" value="{{usuario.horario_consulta}}">
+
+		<label>¿Cómo nos ha conocido?</label>		
+		<input type="text" id="como_conocido" name="como_conocido" value="{{usuario.como_conocido}}">
+
+
+
+
+</fieldset>
+
+
+
+<fieldset class="persona">
+	<legend>Datos Personales</legend>
+
+		<label>Fecha de Nacimiento</label>		
+		<input type="text" id="fecha_nacimiento" name="fecha_nacimiento" value="{{usuario.fecha_nacimiento}}">
+
+		<label>Genero</label>
+		<select id="genero" name="genero">
+			<option value=""  {% if usuario.genero == ""%}selected{% endif %}>---</option>
+			<option value="H" {% if usuario.genero == "H"%}selected{% endif %}>Hombre</option>
+			<option value="M" {% if usuario.genero == "M"%}selected{% endif %}>Mujer</option>
+		</select>	
+
+		<label>Tratamiento</label>		
+		<input type="text" id="tratamiento" name="tratamiento" value="{{usuario.tratamiento}}">
+
+		<label>Nivel de estudios</label>
+		<select id="id_estudios" name="id_estudios">
+			<option value="0" selected>---</option>
+			{% for estudio in estudios %}	
+				<option value="{{estudio.id_estudio}}" {% if usuario.id_estudios == estudio.id_estudio %}selected{% endif %}>{{estudio.descripcion}} </option>
+			{% endfor %}
+		</select>	
+
+		<label>Profesión</label>
+		<select id="id_profesion" name="id_profesion">
+			<option value="0" selected>---</option>
+			{% for profesion in profesiones %}	
+				<option value="{{profesion.id_profesion}}" {% if usuario.id_profesion == profesion.id_profesion %}selected{% endif %}>{{profesion.descripcion}}</option>
+			{% endfor %}
+		</select>
+
+
+</fieldset>
+<fieldset>
+	<legend>Notas</legend>
+		<textarea id="observaciones" name="observaciones" >{{usuario.observaciones}}</textarea>
+
+</fieldset>

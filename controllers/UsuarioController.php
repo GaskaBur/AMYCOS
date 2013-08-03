@@ -66,24 +66,27 @@ class UsuarioController extends SimpleController {
 		$from .= 'LEFT JOIN donaciones AS don ON don.id_usuario = us.id_usuario ';
 		$from .= 'LEFT JOIN colaboraciones AS col ON col.id_usuario = us.id_usuario ';
 
-		if ($this->tipo_usuario != -1)
+		if ($this->controller != 'VoluntarioController')
 		{
-			$where = ' us.activo = 1 AND us.tipo_usuario = '.$this->tipo_usuario.' GROUP BY us.id_usuario ';
-			if (isset($_COOKIE['filtro_usuario']))
+			if ($this->tipo_usuario != -1)
 			{
-				if ($_COOKIE['filtro_usuario'] != '')
-					$where = ($_COOKIE['filtro_usuario']).' and us.tipo_usuario = '.$this->tipo_usuario.' GROUP BY us.id_usuario ';
+				$where = ' us.activo = 1 AND us.tipo_usuario = '.$this->tipo_usuario.' GROUP BY us.id_usuario ';
+				if (isset($_COOKIE['filtro_usuario']))
+				{
+					if ($_COOKIE['filtro_usuario'] != '')
+						$where = ($_COOKIE['filtro_usuario']).' and us.tipo_usuario = '.$this->tipo_usuario.' GROUP BY us.id_usuario ';
+				}
 			}
-		}
-		else
-		{
-			$where = ' us.activo = 1 GROUP BY us.id_usuario ';
-			if (isset($_COOKIE['filtro_usuario']))
+			else
 			{
-				if ($_COOKIE['filtro_usuario'] != '')
-					$where = ($_COOKIE['filtro_usuario']).' GROUP BY us.id_usuario ';
+				$where = ' us.activo = 1 GROUP BY us.id_usuario ';
+				if (isset($_COOKIE['filtro_usuario']))
+				{
+					if ($_COOKIE['filtro_usuario'] != '')
+						$where = ($_COOKIE['filtro_usuario']).' GROUP BY us.id_usuario ';
+				}
 			}
-		}
+
 				
 		
 		if (isset($_COOKIE['usuario_orden']))
@@ -106,6 +109,7 @@ class UsuarioController extends SimpleController {
 		
 
 		$where .= ' LIMIT '.($actual * PAGINAS_USUARIOS).','.PAGINAS_USUARIOS;
+	}
 		parent::genList(
 			$error,
 			$query,
@@ -191,13 +195,16 @@ class UsuarioController extends SimpleController {
 
 				}
 
-				$this->genList();
+				if ($this->controller != 'VoluntarioController')
+					$this->genList();
 			}
 			else
 				$this->genList('Se ha producido un error');
 		}
 		else
 			$id = parent::add();
+
+		return $id;
 	}
 
 	public function order() {
