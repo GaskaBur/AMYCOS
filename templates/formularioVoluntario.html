@@ -1,0 +1,61 @@
+<fieldset>
+	
+	<legend>Datos de Voluntariado</legend>
+
+	<label>Clase de voluntario</label>
+	<select id="id_clase" name="id_clase">
+		<option value="0">--</option>
+		{% for clase in Clase.selectAll() %}	
+			<option value="{{clase.id_clase}}"{% if voluntario[0].id_clase == clase.id_clase%} selected{% endif %}>{{clase.descripcion}}</option>
+		{% endfor %}
+	</select>
+
+	<label>activo</label>
+		<select id="voluntario_activo" name="voluntario_activo">
+			<option value="1" {% if voluntario[0].activo == 1 %} selected{% endif %}>Si</option>
+			<option value="0" {% if voluntario[0].activo == 0 %} selected{% endif %}>No</option>
+		</select>
+	<br>
+	<label>Procedencia</label>
+	{{voluntario[0].id_procedencia}}
+	<select id="id_procedencia" name="id_procedencia">
+		<option value="0">--</option>
+		{% for pro in Procedencia.selectAll() %}	
+			<option value="{{pro.id_procedencia}}"{% if voluntario[0].id_procedencia == pro.id_procedencia %} selected{% endif %}>{{pro.descripcion}}</option>
+		{% endfor %}
+	</select>
+
+	<label>Descripción detallada de la procedencia</label>		
+	<input type="text" id="info_procedencia" name="info_procedencia" value="{{voluntario[0].info_procedencia}}">
+
+	<br>
+
+	<label>alias del voluntario</label>		
+	<input type="text" id="alias" name="alias" value="{{voluntario[0].alias}}">
+
+	<label>Contraseña</label>		
+	<input type="password" id="voluntario_pass" name="voluntario_pass" value="{{voluntario[0].voluntario_pass}}">
+
+	<br>
+
+	<label>Desde el año</label>		
+	<input type="text" id="anio_old" name="anio_old" value="{{voluntario[0].anio_old}}">
+
+	<label>Usuario mentor</label>
+	<select id="id_usuario_mentor" name="id_usuario_mentor">
+		<option value="0">--</option>
+		{% for usu in Usuario.selectAll() %}	
+			<option value="{{usu.id_usuario}}"{% if voluntario[0].id_usuario_mentor == usu.id_usuario %} selected{% endif %}>{{usu.nombre}}</option>
+		{% endfor %}
+	</select>
+
+	<br>
+
+	<label>Preferencias</label>		
+	<input type="text" id="preferencias" name="preferencias" value="{{voluntario[0].preferencias}}">
+
+	<label>Disponibilidad</label>		
+	<input type="text" id="disponibilidad" name="disponibilidad" value="{{voluntario[0].disponibilidad}}">
+	
+    
+</fieldset>

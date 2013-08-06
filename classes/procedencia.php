@@ -8,6 +8,8 @@ class Procedencia extends Model {
 	#String - nombre
 	public $descripcion;
 
+	static $tabla = 'procedencias';
+
 	/*
 	Definición de datos:
 	table = tabla principal asociada a la clase
@@ -42,6 +44,15 @@ class Procedencia extends Model {
 	*/
 	public function getIdByDescription($descripcion,$s=null){
 		return parent::getIdByDescription($descripcion);
+	}
+
+
+	/*
+	Devuele un array con todas las procedencias
+	*/
+	public static function selectAll($tabla = null)
+	{
+		return parent::selectAll(Procedencia::$tabla);
 	}
 
 	

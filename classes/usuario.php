@@ -129,7 +129,7 @@ class Usuario extends Model {
 	#boolean -> activo indica que esta clase se puede filtar en listado y tiene campos para ello.
 	public $needFilter = true;
 
-
+	static $tabla = 'usuario';
 	/*
 	Definición de datos:
 	table = tabla principal asociada a la clase
@@ -283,6 +283,13 @@ class Usuario extends Model {
 		echo 'activo'.$this->activo.'<br>';
 	}
 
+	/*
+	Devuele un array con todas las procedencias
+	*/
+	public static function selectAll($tabla = null)
+	{
+		return parent::selectAll(Usuario::$tabla);
+	}
 	
 
 }

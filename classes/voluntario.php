@@ -28,7 +28,7 @@ class Voluntario extends Model {
 	public $alias;
 
 	#string - MD5 - Contraseña del usuario dentro el sistema
-	public $pass;
+	public $voluntario_pass;
 
 	#int - año old -> indica el último año en el que participo como voluntario en el antiguo sistema
 	public $anio_old;
@@ -72,7 +72,7 @@ class Voluntario extends Model {
 			'id_usuario' => array('type' => TYPE_INT, 'isRequired' => true,'relation' => 'Usuario', 'relationKey' => 'nombre', 'where' => 'id_usuario NOT IN(SELECT id_usuario FROM voluntarios)'),
 			'id_procedencia' => array('type' => TYPE_INT, 'relation' => 'Procedencia', 'relationKey' => 'descripcion', 'where' => null),
 			'alias' => array('type' => TYPE_STRING),
-			'pass' => array('type' => TYPE_MD5),
+			'voluntario_pass' => array('type' => TYPE_MD5),
 			'id_clase' => array('type' => TYPE_INT, 'isRequired' => true,'relation' => 'Clase', 'relationKey' => 'descripcion', 'where' => null),
 			'anio_old' => array('type' => TYPE_STRING),
 			'preferencias' => array('type' => TYPE_STRING),

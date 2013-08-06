@@ -23,7 +23,13 @@
 {% else %}
 <form action="?controller={{controller}}&amp;action=add" method="post">
 {% endif %}
+
+{% if controller == 'VoluntarioController' %}
+	{% include 'formularioVoluntario.html' %}
+{% endif %}
+
 {% include 'formularioUsuario.html' %}
+
 <input class="btn btn-success" name="enviar" type="submit" />
 </form>
 

@@ -19,6 +19,8 @@ class Clase extends Model {
 	#String - nombre o descripción de la clase
 	public $descripcion;
 
+	static $tabla = 'clases';
+
 	/*
 	Definición de datos:
 	table = tabla principal asociada a la clase
@@ -55,6 +57,14 @@ class Clase extends Model {
 	public function getIdByDescription($descripcion,$s=null){
 		return parent::getIdByDescription($descripcion);
 	}	
+
+	/*
+	Devuele un array con todas las procedencias
+	*/
+	public static function selectAll($tabla = null)
+	{
+		return parent::selectAll(Clase::$tabla);
+	}
 
 }
 ?>

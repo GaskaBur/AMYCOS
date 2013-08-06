@@ -74,12 +74,14 @@ class VoluntarioController extends UsuarioController {
 
 		
 		$q = sprintf('SELECT %s FROM %s WHERE %s',$query,$from,$where);
+
 		$array = DB::getInstance()->executeQ($q);
-		$registros = count($array);		
+		$registros = count($array);	
 		$paginas = $registros / PAGINAS_USUARIOS;
 		$paginas = (int)$paginas;
 		if (($registros / PAGINAS_USUARIOS ) > $paginas)
 			$paginas ++;
+
 		
 
 		$where .= ' LIMIT '.($actual * PAGINAS_USUARIOS).','.PAGINAS_USUARIOS;
@@ -96,13 +98,38 @@ class VoluntarioController extends UsuarioController {
 	public function add($return = null)
 	{
 		
-		$id =  parent::add();
+		if (!isset($_GET['id']))
+		{
+			$id =  parent::add();
 
-		$voluntario = new Voluntario();
-		$voluntario->id_usuario = $id;
-		$voluntario->add();
+			$voluntario = new Voluntario();
+			$voluntario->id_usuario = $id;
+			$voluntario->activo = $_POST['voluntario_activo'];
+			foreach ($voluntario->definition['fields'] as $key => $value) {
+				if ($key != 'id_usuario' && $key != 'activo')
+					$voluntario->$key = $_POST[$key];
+			}
 
-		$this->genList();
+			$voluntario->add();
+
+			$this->genList();
+		}
+		else
+		{
+			
+			$id_voluntario_1 = DB::getInstance()->executeQ(sprintf('SELECT id_voluntario FROM voluntarios WHERE id_usuario = %d',$_GET['id']));
+			$id_voluntario = $id_voluntario_1[0]['id_voluntario'];
+			
+			$voluntario = new Voluntario($id_voluntario);
+			$voluntario->id_usuario = $_GET['id'];
+			$voluntario->activo = $_POST['voluntario_activo'];
+			foreach ($voluntario->definition['fields'] as $key => $value) {
+				if ($key != 'id_usuario' && $key != 'activo')
+					$voluntario->$key = $_POST[$key];
+			}
+			$voluntario->update($id_voluntario);
+			$id =  parent::add();
+		}
 	}	
 
 }

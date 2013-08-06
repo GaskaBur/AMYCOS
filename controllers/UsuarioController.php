@@ -89,27 +89,30 @@ class UsuarioController extends SimpleController {
 
 				
 		
-		if (isset($_COOKIE['usuario_orden']))
-		{
-			if ($_COOKIE['usuario_orden'] != '')
-				$where .= 'ORDER BY '.$_COOKIE['usuario_orden'];
-		}
-		else
-			$where .= 'ORDER BY us.id_usuario';
+			if (isset($_COOKIE['usuario_orden']))
+			{
+				if ($_COOKIE['usuario_orden'] != '')
+					$where .= 'ORDER BY '.$_COOKIE['usuario_orden'];
+			}
+			else
+				$where .= 'ORDER BY us.id_usuario';
+				
+
+			
+			$q = sprintf('SELECT %s FROM %s WHERE %s',$query,$from,$where);
+			$array = DB::getInstance()->executeQ($q);
+			$registros = count($array);		
+			$paginas = $registros / PAGINAS_USUARIOS;
+			$paginas = (int)$paginas;
+			if (($registros / PAGINAS_USUARIOS ) > $paginas)
+				$paginas ++;
 			
 
-		
-		$q = sprintf('SELECT %s FROM %s WHERE %s',$query,$from,$where);
-		$array = DB::getInstance()->executeQ($q);
-		$registros = count($array);		
-		$paginas = $registros / PAGINAS_USUARIOS;
-		$paginas = (int)$paginas;
-		if (($registros / PAGINAS_USUARIOS ) > $paginas)
-			$paginas ++;
-		
+			$where .= ' LIMIT '.($actual * PAGINAS_USUARIOS).','.PAGINAS_USUARIOS;
+		}
+		else
+			$paginas = $page;
 
-		$where .= ' LIMIT '.($actual * PAGINAS_USUARIOS).','.PAGINAS_USUARIOS;
-	}
 		parent::genList(
 			$error,
 			$query,
@@ -127,6 +130,7 @@ class UsuarioController extends SimpleController {
 		$telefonos = null;
 		$mails = null;
 		$direcciones = null;
+		$voluntario = null;
 
 		if (isset($_GET['id']))
 		{
@@ -134,6 +138,9 @@ class UsuarioController extends SimpleController {
 			$telefonos = Telefono::getTelefonosId($_GET['id'],'orden');
 			$mails = Mail::getMailsId($_GET['id'],'orden');
 			$direcciones = Direccion::getDireccionesId($_GET['id'],'orden');
+
+			$sql = sprintf("SELECT * FROM %s WHERE id_usuario = %d",'voluntarios',$_GET['id']);
+			$voluntario = DB::getInstance()->executeQ($sql);
 		}
 		echo $this->twig->render('usuario.html', array(
 			'tipos_alta' => Tipo_Alta::selectAll(),
@@ -147,6 +154,7 @@ class UsuarioController extends SimpleController {
 			'usuario' => $usuario,
 			'tipo_usuario' => $this->tipo_usuario,
 			'direcciones' => $direcciones,
+			'voluntario' => $voluntario,
 			'controller' => $this->controller,
 		));
 	}

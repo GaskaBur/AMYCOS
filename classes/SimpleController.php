@@ -35,7 +35,7 @@ class SimpleController {
 	genera una lista con todo el contenido de la tabla asociada al controlador a traves del 
 	template listasimple.html
 	*/
-	public function genList($error = false, $query = null, $from = null,$where = null,$filtro = 'nullfilter.html',$pages=0,$page_actual=-1)
+	public function genList($error = false, $query = null, $from = null,$where = null,$filtro = 'nullfilter.html',$pages,$page_actual=-1)
 	{
 		
 		$consulta = "";
@@ -65,6 +65,7 @@ class SimpleController {
 				$listado = DB::getInstance()->executeQ(sprintf("select %s from %s where %s",$query,$from,$where));				
 			}
 		}		
+		
 		
 		echo $this->twig->render('listasimple.html', array(
 				'error' => $error,

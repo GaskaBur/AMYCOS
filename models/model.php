@@ -73,6 +73,7 @@ abstract class Model extends DB {
 			$loop++;
 		}
 		$sql .= ")";
+
 		$this->open_connection();
 		if ($this->con->query($sql))
 		{

@@ -40,6 +40,10 @@ $twig->addGlobal('Telefono', new Telefono);
 $twig->addGlobal('Categoria_Usuario', new Categoria_Usuario);
 $twig->addGlobal('Tipo_Alta', new Tipo_Alta);
 $twig->addGlobal('Rol', new Rol);
+$twig->addGlobal('Usuario', new Usuario);
+$twig->addGlobal('Clase', new Clase);
+$twig->addGlobal('Procedencia', new Procedencia);
+$twig->addGlobal('Usuario', new Usuario);
 $twig->addGlobal('COOKIE', $_COOKIE);
 $twig->addGlobal('CreateExcell', new CreateExcell);
 
