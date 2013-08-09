@@ -56,6 +56,18 @@
 
 	<label>Disponibilidad</label>		
 	<input type="text" id="disponibilidad" name="disponibilidad" value="{{voluntario[0].disponibilidad}}">
+
+	<br><label>Naturalezas del Voluntario</label>
+	{% for fc in Naturaleza.selectAll() %}
+		<input type="checkbox" name="naturalezas_voluntario[]" value="{{fc.id_naturaleza}}"
+		{% for f in naturalezas %}
+			{% if f.id_naturaleza == fc.id_naturaleza %}
+				checked="true"
+			{% endif %}
+		{% endfor %}
+		> {{fc.descripcion}}
+	{% endfor %}
+
 	
     
 </fieldset>

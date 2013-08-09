@@ -11,8 +11,7 @@ class Usuario_Formas_Contacto extends DB {
 	function __construct($_id_usuario, $_id_forma_contacto) {
 		$this->usuario = new Usuario($_id_usuario);
 		$this->forma_contacto = new Forma_Contacto($_id_forma_contacto);
-		echo $this->forma_contacto->descripcion;
-				
+						
 	}
 
 	public function save(){

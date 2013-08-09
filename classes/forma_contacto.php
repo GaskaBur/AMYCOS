@@ -19,6 +19,9 @@ class Forma_Contacto extends Model {
 	#String - nombre o descripción de la forma de contacto
 	public $descripcion;
 
+	#Tabla asociada a la Clase
+	static $tabla = 'formas_contacto';
+
 	/*
 	Definición de datos:
 	table = tabla principal asociada a la clase
@@ -53,6 +56,14 @@ class Forma_Contacto extends Model {
 	*/
 	public function getIdByDescription($descripcion,$s=null){
 		return parent::getIdByDescription($descripcion);
+	}
+
+	/*
+	Devuele un array con todas las formas de contacto
+	*/
+	public static function selectAll($tabla = null)
+	{
+		return parent::selectAll(Forma_Contacto::$tabla);
 	}
 	
 

@@ -129,7 +129,18 @@
 		<label>¿Cómo nos ha conocido?</label>		
 		<input type="text" id="como_conocido" name="como_conocido" value="{{usuario.como_conocido}}">
 
+		<br><label>Forma de contacto preferida</label>
+		{% for fc in Forma_Contacto.selectAll() %}
+			<input type="checkbox" name="formas_contacto[]" value="{{fc.id_forma_contacto}}"
+			{% for f in formasContacto %}
+				{% if f.id_forma_contacto == fc.id_forma_contacto %}
+					checked="true"
+				{% endif %}
+			{% endfor %}
+			> {{fc.descripcion}}
+		{% endfor %}
 
+		 
 
 
 </fieldset>

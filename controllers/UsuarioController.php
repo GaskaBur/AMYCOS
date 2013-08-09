@@ -131,6 +131,8 @@ class UsuarioController extends SimpleController {
 		$mails = null;
 		$direcciones = null;
 		$voluntario = null;
+		$formasContacto = array();
+		$naturalezas = array();
 
 		if (isset($_GET['id']))
 		{
@@ -138,9 +140,15 @@ class UsuarioController extends SimpleController {
 			$telefonos = Telefono::getTelefonosId($_GET['id'],'orden');
 			$mails = Mail::getMailsId($_GET['id'],'orden');
 			$direcciones = Direccion::getDireccionesId($_GET['id'],'orden');
-
+			$sql = sprintf("SELECT id_forma_contacto FROM usuario_formas_contacto Where id_usuario = %d",$_GET['id']);
+			$formasContacto = DB::getInstance()->executeQ($sql);
 			$sql = sprintf("SELECT * FROM %s WHERE id_usuario = %d",'voluntarios',$_GET['id']);
 			$voluntario = DB::getInstance()->executeQ($sql);
+
+			$id_voluntario_1 = DB::getInstance()->executeQ(sprintf('SELECT id_voluntario FROM voluntarios WHERE id_usuario = %d',$_GET['id']));
+			$id_voluntario = $id_voluntario_1[0]['id_voluntario'];
+			$sql = sprintf("SELECT id_naturaleza FROM voluntarios_naturalezas Where id_voluntario = %d",$id_voluntario);
+			$naturalezas = DB::getInstance()->executeQ($sql);			
 		}
 		echo $this->twig->render('usuario.html', array(
 			'tipos_alta' => Tipo_Alta::selectAll(),
@@ -156,6 +164,9 @@ class UsuarioController extends SimpleController {
 			'direcciones' => $direcciones,
 			'voluntario' => $voluntario,
 			'controller' => $this->controller,
+			'formasContacto' => $formasContacto,
+			'naturalezas' => $naturalezas,
+
 		));
 	}
 
@@ -163,6 +174,7 @@ class UsuarioController extends SimpleController {
 	Añade un nuevo Usuario
 	*/
 	public function add($return = null){
+		
 		if(!isset($_GET['id']))
 		{
 			//Doy de alta el usuario
@@ -203,15 +215,38 @@ class UsuarioController extends SimpleController {
 
 				}
 
+				//Alta de metodos de contacto
+				if (isset($_POST['formas_contacto']))
+				{
+					foreach ($_POST['formas_contacto'] as $key => $value) {
+						$fc = new Usuario_Formas_Contacto($id,$value);
+						$fc->save();
+					}
+				}
+					
+
 				if ($this->controller != 'VoluntarioController')
 					$this->genList();
 			}
 			else
-				$this->genList('Se ha producido un error');
+				if ($this->controller != 'VoluntarioController')
+					$this->genList('Se ha producido un error');
 		}
 		else
+		{
 			$id = parent::add();
+			//Alta de metodos de contacto
+			$sql = sprintf("DELETE FROM usuario_formas_contacto WHERE id_usuario = %d",$_GET['id']);			
+			DB::getInstance()->execute($sql);
+			if (isset($_POST['formas_contacto']))
+			{
 
+				foreach ($_POST['formas_contacto'] as $key => $value) {
+					$fc = new Usuario_Formas_Contacto($_GET['id'],$value);
+					$fc->save();
+				}
+			}
+		}
 		return $id;
 	}
 

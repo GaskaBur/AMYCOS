@@ -35,7 +35,7 @@ class SimpleController {
 	genera una lista con todo el contenido de la tabla asociada al controlador a traves del 
 	template listasimple.html
 	*/
-	public function genList($error = false, $query = null, $from = null,$where = null,$filtro = 'nullfilter.html',$pages,$page_actual=-1)
+	public function genList($error = false, $query = null, $from = null,$where = null,$filtro = 'nullfilter.html',$pages = 0,$page_actual=-1)
 	{
 		
 		$consulta = "";
@@ -146,7 +146,8 @@ class SimpleController {
 						if ($value == "")
 							$error = true;
 					}
-					$clase->$pst = utf8_encode($value);
+					if (is_string($value))
+						$clase->$pst = utf8_encode($value);
 				}
 				$exit = -1;
 				if (!$error)

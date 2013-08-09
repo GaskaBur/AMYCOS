@@ -102,17 +102,31 @@ class VoluntarioController extends UsuarioController {
 		{
 			$id =  parent::add();
 
-			$voluntario = new Voluntario();
-			$voluntario->id_usuario = $id;
-			$voluntario->activo = $_POST['voluntario_activo'];
-			foreach ($voluntario->definition['fields'] as $key => $value) {
-				if ($key != 'id_usuario' && $key != 'activo')
-					$voluntario->$key = $_POST[$key];
+			if ($id != -1)
+			{
+				$voluntario = new Voluntario();
+				$voluntario->id_usuario = $id;
+				$voluntario->activo = $_POST['voluntario_activo'];
+				foreach ($voluntario->definition['fields'] as $key => $value) {
+					if ($key != 'id_usuario' && $key != 'activo')
+						$voluntario->$key = $_POST[$key];
+				}
+
+				$idVoluntario = $voluntario->add();
+
+				//Alta de Las naturalezas del voluntario
+				if (isset($_POST['naturalezas_voluntario']))
+				{
+					foreach ($_POST['naturalezas_voluntario'] as $key => $value) {
+						$fc = new Voluntarios_Naturalezas($idVoluntario,$value);
+						$fc->save();
+					}
+				}
+
+				$this->genList();
 			}
-
-			$voluntario->add();
-
-			$this->genList();
+			else
+				$this->genList('Se ha producido un error');
 		}
 		else
 		{
@@ -129,8 +143,21 @@ class VoluntarioController extends UsuarioController {
 			}
 			$voluntario->update($id_voluntario);
 			$id =  parent::add();
+
+			//Alta de Las naturalezas del voluntario
+			$sql = sprintf("DELETE FROM voluntarios_naturalezas WHERE id_voluntario = %d",$id_voluntario);			
+			DB::getInstance()->execute($sql);
+			if (isset($_POST['naturalezas_voluntario']))
+			{
+				foreach ($_POST['naturalezas_voluntario'] as $key => $value) {
+					$fc = new Voluntarios_Naturalezas($id_voluntario,$value);
+					$fc->save();
+				}
+			}
 		}
 	}	
+
+
 
 }
 
