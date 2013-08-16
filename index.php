@@ -48,7 +48,7 @@ $twig->addGlobal('Forma_Contacto', new Forma_Contacto);
 $twig->addGlobal('Usuario', new Usuario);
 $twig->addGlobal('COOKIE', $_COOKIE);
 $twig->addGlobal('CreateExcell', new CreateExcell);
-
+$twig->addGlobal('categorias_archivos', CategoriasArchivosController::getAllCategories());
 require_once('dispatcher.php');
 ?>
 

@@ -15,7 +15,12 @@ abstract class Model extends DB {
 				$primary = $this->definition['primary'];
 				$this->$primary = $_id;
 				foreach ($this->definition['fields'] as $key => $value) { 
-					$this->$key = $model[$key];
+					try {
+						@$this->$key = $model[$key];
+					} catch (Exception $e) {
+						
+					}
+					
 				}
 			}
 			else
