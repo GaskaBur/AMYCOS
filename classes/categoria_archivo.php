@@ -20,7 +20,7 @@ class Categoria_Archivo extends Model {
 	public $descripcion;
 
 	#int - id categoría padre
-	public $id_categoria_archivo_padre;
+	//public $id_categoria_archivo_padre;
 
 	#tabla asociada a la calse
 	static $tabla = 'categorias_archivos';
@@ -45,12 +45,13 @@ class Categoria_Archivo extends Model {
 		'primary' => 'id_categoria_archivo',
 		'fields' => array(
 			'descripcion' => array('type' => TYPE_STRING, 'value' => ''),
+			/*
 			'id_categoria_archivo_padre' => array(
 				'type' => TYPE_INT, 
 				'value' => '', 
 				'relation' => 'categoria_archivo', 
 				'relationKey' => 'descripcion',
-				'where' => null),
+				'where' => null),*/
 		),
 	);
 	

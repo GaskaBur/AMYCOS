@@ -333,7 +333,20 @@ $( document ).ready(function() {
 			});
 	});
 
+	
+
 });
+
+function borrarConfirmation(url)
+{
+	alert('borrar');
+
+		  
+		  
+		 if (confirm("Are you sure you want to delete")) {
+		   alert('borrar que si');
+		  }
+}
 
 function recargaTipoUsuario(){
 	if ($("#tipo_usuario").val() == 0)

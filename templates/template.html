@@ -88,7 +88,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentación<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     {% for categoria in categorias_archivos %}
-                        <li><a href="?controller=ArchivosController&amp;action=genList">{{categoria.descripcion}}</a></li>
+                        <li><a href="?controller=ArchivosController&amp;action=genList&amp;cat_archivo={{categoria.id_categoria_archivo}}">{{categoria.descripcion}}</a></li>
                     {% endfor %}
                 </ul>
             </li>    

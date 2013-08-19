@@ -6,6 +6,9 @@ define('_DB_TABLE_', 'amycos');
 define('_DB_USER_', 'root');
 define('_DB_PASS_', '');
 
+define('_FILE_DIR_','files');
+define('_FILE_MAX_',15000000);
+
 const TYPE_INT = 1;
 const TYPE_BOOL = 2;
 const TYPE_STRING = 3;

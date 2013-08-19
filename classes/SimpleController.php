@@ -28,7 +28,7 @@ class SimpleController {
 	function __construct($_class,$_controller, $_twig) {
 		$this->class = $_class;
 		$this->twig = $_twig;
-		$this->controller = $_controller;			
+		$this->controller = $_controller;					
 	}
 
 	/*
@@ -77,6 +77,7 @@ class SimpleController {
 				'paginas' => $pages,
 				'actual' => $page_actual,
 				'consulta' => $consulta,
+				'cat_archivo' => (isset($_GET['cat_archivo'])) ? $_GET['cat_archivo'] : null, //Este Cat está añadido para el repositorio de archivos
 		));
 	}
 
@@ -106,6 +107,7 @@ class SimpleController {
 				'clase' => 'Mantenimiento tabla:  '.$this->class,
 				'id' => 'id_'.strtolower($this->class),
 				'controller' => $this->controller,
+				'cat_archivo' => (isset($_GET['cat_archivo'])) ? $_GET['cat_archivo'] : null, //Este Cat está añadido para el repositorio de archivos
 		));
 	}
 

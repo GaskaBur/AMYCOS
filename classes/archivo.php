@@ -19,6 +19,9 @@ class Archivo extends Model {
 	#String - extensión
 	public $extension;
 
+	#String - Cabecera que contiene el tipo de archivo
+	public $header;
+
 	#Date - Fecha de alta
 	public $fecha_alta;
 
@@ -27,6 +30,9 @@ class Archivo extends Model {
 
 	#String - descripcion
 	public $descripcion;
+
+	#int categoria Archivo
+	public $id_categoria_archivo;
 
 	#tabla asociada a la calse
 	static $tabla = 'archivos';
@@ -52,6 +58,7 @@ class Archivo extends Model {
 		'fields' => array(
 			'nombre' => array('type' => TYPE_STRING, 'value' => ''),
 			'extension' => array('type' => TYPE_STRING, 'value' => ''),
+			'header' => array('type' => TYPE_STRING, 'value' => ''),
 			'fecha_alta' => array('type' => TYPE_DATE, 'value' => ''),
 			'id_usuario' => array('type' => TYPE_STRING, 
 				'value' => '',
@@ -59,6 +66,7 @@ class Archivo extends Model {
 				'relationKey' => 'nombre',
 				'where' => null),
 			'descripcion' => array('type' => TYPE_STRING, 'value' => ''),
+			'id_categoria_archivo' => array('type' => TYPE_INT, 'value' => 0),
 		),
 	);
 	

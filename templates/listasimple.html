@@ -7,7 +7,14 @@
 {% block content %}
 
 {{ parent() }}
-
+<script type="text/javascript">
+function borrarConfirmation(delUrl)
+{
+	 if (confirm("¿Estás seguro que quieres borrar?")) {
+		   document.location = delUrl;
+	 }
+}
+</script>
 <h2>Elije una opción</h2>
 <h3>{{clase}}</h3>
 {% if error%}
@@ -16,7 +23,7 @@ EXISTE ERRORES
 {% if consulta != "" %}
 	<a href="?controller=ExcellController&amp;action=create&amp;q={{consulta}}&amp;n=excell" style="float:right"><img src="templates/img/excell.jpg" />Exportar</a>
 {% endif %}
-<p><a href="?controller={{controller}}&action=addForm" class="btn btn-success"><i class="icon-plus"></i> Añadir</a></p>
+<p><a href="?controller={{controller}}&action=addForm{% if cat_archivo %}&cat_archivo={{cat_archivo}}{% endif%}" class="btn btn-success"><i class="icon-plus"></i> Añadir</a></p>
 <table border="1" padding="3">
 	
 	<thead>
@@ -36,8 +43,10 @@ EXISTE ERRORES
 		{% for key,ele in elemento %}
 			<td><a href="?controller={{controller}}&action=addForm&id={{elemento[(id)]}}" class="">{{ele|convert_encoding('UTF-8', 'UTF-8') }}</a></td>
 		{% endfor %}
-		<td><a href="?controller={{controller}}&action=addForm&id={{elemento[(id)]}}" class=""><span class="glyphicon glyphicon-edit"></span> Editar</a></td>	
-		<td><a href="?controller={{controller}}&action=del&id={{elemento[(id)]}}" class=""><span class="glyphicon glyphicon-remove"></span> Borrar</a></td>	
+		{% if controller != 'ArchivosController' %}
+		<td><a href="?controller={{controller}}&action=addForm&id={{elemento[(id)]}}" class=""><span class="glyphicon glyphicon-edit"></span> Editar</a></td>
+		{% endif %}	
+		<td><a href="javascript:borrarConfirmation('?controller={{controller}}&action=del&id={{elemento[(id)]}}{% if cat_archivo %}&amp;cat_archivo={{cat_archivo}}{% endif %}')" class="borrar" ><span class="glyphicon glyphicon-remove"></span> Borrar</a></td>	
        	</tr>
 
 	{% endfor %}
