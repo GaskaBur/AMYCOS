@@ -1,4 +1,6 @@
 <?php
+session_start(); // al volver al index si existe una session, esta sera destruida, existen formas de conservarlas como con un if(session_start()!= NULL). Pero por el momento para el ejemplo no es valido.
+//session_destroy(); // Se destruye la session existente de esta forma no permite el duplicado.
 
 /**
 @Autor: Sergio Gil Pérez
@@ -49,6 +51,8 @@ $twig->addGlobal('Usuario', new Usuario);
 $twig->addGlobal('COOKIE', $_COOKIE);
 $twig->addGlobal('CreateExcell', new CreateExcell);
 $twig->addGlobal('categorias_archivos', CategoriasArchivosController::getAllCategories());
+$twig->addGlobal('SESSION',$_SESSION);
+
 require_once('dispatcher.php');
 ?>
 

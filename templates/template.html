@@ -108,7 +108,27 @@
             </li>
         </ul>        
       </div> <!--/.nav-collapse --> 
-      <p class="navbar-text pull-right">Sesión activa como <a href="#" class="navbar-link">Amycos</a></p>
+      {% if SESSION %}
+      <p class="navbar-text pull-right">Sesión activa como <a href="#" class="navbar-link">{{SESSION.username}}</a> <a href="?controller=LoginController&amp;action=logout" class="navbar-link" style="color:red">LogOut</a></p>
+      {% else %}
+       <p class="navbar-text pull-right">
+            <form method="post" action="?controller=LoginController&amp;action=login">
+                <input type="text" id="userID" name="userID" value="mail" style="float:left"/>
+                <script type="text/javascript">
+                    $('#userID').click(function(){
+                        $(this).val('') ;
+                    });
+                </script>
+                <input type="password" id="userPASS" name="userPASS" value="pass" style="float:left"/>
+                 <script type="text/javascript">
+                    $('#userPASS').click(function(){
+                        $(this).val('') ;
+                    });
+                </script>
+                <input type="submit" value="entrar" style="float:left"/>
+            </form>
+       </p>
+      {% endif %}
   </div> <!-- /.container IN NAV --> 
 </div><!-- /.navbar -->
 <div class="container"> 
