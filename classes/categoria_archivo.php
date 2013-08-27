@@ -71,7 +71,7 @@ class Categoria_Archivo extends Model {
 	/*
 	Devuelve un array con todas las Categorias .
 	*/
-	public static function selectAll($tabla = null)
+	public static function selectAll($tabla = null,$where = null, $order = null)
 	{
 		return parent::selectAll(Categoria_Archivo::$tabla);
 	}

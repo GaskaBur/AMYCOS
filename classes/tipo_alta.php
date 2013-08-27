@@ -46,7 +46,7 @@ class Tipo_Alta extends Model {
 		return parent::getIdByDescription($descripcion);
 	}
 
-	public static function selectAll($tabla = null)
+	public static function selectAll($tabla = null,$where = null, $order = null)
 	{
 		return parent::selectAll(Tipo_Alta::$tabla);
 	}

@@ -69,7 +69,7 @@ class Voluntario extends Model {
 		'table' => 'voluntarios',
 		'primary' => 'id_voluntario',
 		'fields' => array(
-			'id_usuario' => array('type' => TYPE_INT, 'isRequired' => true,'relation' => 'Usuario', 'relationKey' => 'nombre', 'where' => 'id_usuario NOT IN(SELECT id_usuario FROM voluntarios)'),
+			'id_usuario' => array('type' => TYPE_INT, 'isRequired' => true,'relation' => 'Usuario', 'relationKey' => 'nombre', 'where' => 'id_usuario NOT IN(SELECT id_usuario FROM voluntarios)', 'order' => 'nombre, primer_apellido,segundo_apellido'),
 			'id_procedencia' => array('type' => TYPE_INT, 'relation' => 'Procedencia', 'relationKey' => 'descripcion', 'where' => null),
 			'alias' => array('type' => TYPE_STRING),
 			'voluntario_pass' => array('type' => TYPE_MD5),

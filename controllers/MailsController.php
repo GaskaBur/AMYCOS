@@ -31,7 +31,18 @@ class MailsController extends SimpleController {
 			$mail->mail = $mails[$i];
 			$mail->orden = $orden_mail[$i];
 			$mail->update($value);
+
+			if ($orden_mail[$i] == 0)
+			{
+				echo 'actualiza';
+				$user = new Usuario($id_usuario_mail[$i]);
+				$user->mail = $mails[$i];
+				$user->update($user->id_usuario);
+			}
+			
 			$i++;
+
+			
 		}
 	}
 

@@ -61,7 +61,7 @@ class Proyecto extends Model {
 	/*
 	Devuele un array con todas los proyectos
 	*/
-	public static function selectAll($tabla = null)
+	public static function selectAll($tabla = null,$where = null, $order = null)
 	{
 		return parent::selectAll(Delegacion::$tabla);
 	}

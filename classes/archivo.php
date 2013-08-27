@@ -77,7 +77,7 @@ class Archivo extends Model {
 	/*
 	Devuelve un array con todos los archivos .
 	*/
-	public static function selectAll($tabla = null)
+	public static function selectAll($tabla = null,$where = null, $order = null)
 	{
 		return parent::selectAll(Archivo::$tabla);
 	}

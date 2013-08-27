@@ -44,7 +44,7 @@
 	<label>Usuario mentor</label>
 	<select id="id_usuario_mentor" name="id_usuario_mentor">
 		<option value="0">--</option>
-		{% for usu in Usuario.selectAll() %}	
+		{% for usu in Usuario.selectAll(null,null,'nombre, primer_apellido, segundo_apellido') %}	
 			<option value="{{usu.id_usuario}}"{% if voluntario[0].id_usuario_mentor == usu.id_usuario %} selected{% endif %}>{{usu.nombre}}</option>
 		{% endfor %}
 	</select>

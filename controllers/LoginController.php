@@ -20,9 +20,26 @@ class LoginController {
 		if (isset($_POST['userID']) && isset($_POST['userPASS']))
 		{
 			//Proceso de validación de Login
-			echo $_POST['userID'];
-			echo $_POST['userPASS'];
-			$_SESSION['username'] = 'Sergio';
+			$user = $_POST['userID'];
+			$pass = $_POST['userPASS'];
+
+			//Busca usuario por nombre o por mail
+			$sql = sprintf("SELECT ma.id_usuario, us.pass, us.nombre
+				FROM mails as ma INNER JOIN usuario AS us ON us.id_usuario = ma.id_usuario
+				WHERE ma.mail = '%s' AND us.administrador = 1 AND us.activo = 1 AND us.estado = 1
+				LIMIT 0,1",$user);
+			$result = DB::getInstance()->executeQ($sql);
+			
+			if (count($result) != 0)
+			{
+				//Se ha encontrado usuario comprobar pass
+				if ($result[0]['pass'] == md5($pass))
+				{
+					//Login correcto
+					$_SESSION['username'] = $result[0]['nombre'];
+					header('location:index.php');
+				}
+			}
 			header('location:index.php');
 
 		}

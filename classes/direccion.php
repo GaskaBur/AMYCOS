@@ -102,7 +102,7 @@ class Direccion extends Model {
 	/*
 	Devuele un array con todas las direcciones
 	*/
-	public static function selectAll($tabla = null)
+	public static function selectAll($tabla = null,$where = null, $order = null)
 	{
 		return parent::selectAll(Delegacion::$tabla);
 	}

@@ -286,9 +286,17 @@ class Usuario extends Model {
 	/*
 	Devuele un array con todas las procedencias
 	*/
-	public static function selectAll($tabla = null)
+	public static function selectAll($tabla = null,$where = null, $order = null)
 	{
-		return parent::selectAll(Usuario::$tabla);
+		return parent::selectAll(Usuario::$tabla,$where,$order);
+	}
+
+	public function delete($id)
+	{
+		$usuario = new Usuario($id);
+		$usuario->activo = 0;
+		$usuario->update($id);
+
 	}
 	
 

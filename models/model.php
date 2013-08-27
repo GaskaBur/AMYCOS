@@ -16,7 +16,7 @@ abstract class Model extends DB {
 				$this->$primary = $_id;
 				foreach ($this->definition['fields'] as $key => $value) { 
 					try {
-						@$this->$key = $model[$key];
+						$this->$key = $model[$key];
 					} catch (Exception $e) {
 						
 					}
@@ -108,7 +108,7 @@ abstract class Model extends DB {
 			$query .= " ORDER BY ".$order;
 		
 		parent::open_connection();
-		$result = $this->con->query($query);	
+		$result = $this->con->query($query);
 		$registro = array();	
 		while ($fila = mysqli_fetch_assoc($result)) {
 			$registro[] = $fila; 			
@@ -118,9 +118,13 @@ abstract class Model extends DB {
 		return $registro;
 	}
 
-	public static function selectAll($table)
+	public static function selectAll($table,$where = null, $order = null)
 	{
 		$query = sprintf("SELECT %s FROM %s", '*', addslashes($table) );
+		if ($where != null)
+			$query .= ' WHERE '.$where;
+		if ($order != null)
+			$query .= ' ORDER BY '.$order;
 		return DB::getInstance()->executeQ($query);
 	}
 
@@ -170,8 +174,10 @@ abstract class Model extends DB {
 				case TYPE_DATE:		
 					$query .= $key."='".$this->$key."',";
 					break;		
-				case TYPE_MD5:		
-					$query .= $key."='".md5($this->$key)."',";
+				case TYPE_MD5:	
+					//Este condicional viene dado para no macachar los contraseñas.
+					if (@$_POST['pass'] != @$_POST['passOLD'])	
+						$query .= $key."='".md5($this->$key)."',";
 					break;	
 			}				
 			/*
@@ -262,8 +268,7 @@ abstract class Model extends DB {
 				$output .= '<select $id="'.$key.'" name="'.$key.'">';
 				if (!isset($value['isRequired']))
 					$output .= '<option value="0"></option>';
-				
-				foreach ($classRelation->getAll($value['where']) as $key => $value2) {
+				foreach ($classRelation->getAll($value['where'], @$value['order']) as $key => $value2) {
 					$id = 'id_'.strtolower($value['relation']);
 					$output .= '<option value="'.$value2[$id].'"';
 					if ($value2[$id] == $anterior)

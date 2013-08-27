@@ -61,7 +61,7 @@ class Categoria_Usuario extends Model {
 	/*
 	Devuelve un array con todas las Categorias de usuario.
 	*/
-	public static function selectAll($tabla = null)
+	public static function selectAll($tabla = null,$where = null, $order = null)
 	{
 		return parent::selectAll(Categoria_Usuario::$tabla);
 	}

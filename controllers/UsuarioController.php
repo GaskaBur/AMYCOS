@@ -60,7 +60,7 @@ class UsuarioController extends SimpleController {
 		# genList(error, select, from, where).
 		$from = ' usuario as us ';
 		$from .= 'LEFT JOIN (SELECT * FROM telefonos ORDER BY orden) AS tlf ON tlf.id_usuario = us.id_usuario ';
-		$from .= 'LEFT JOIN (SELECT * FROM mails ORDER BY orden) AS ma ON ma.id_usuario = us.id_usuario ';
+		$from .= 'LEFT JOIN (SELECT * FROM mails ORDER BY orden, id_mail) AS ma ON ma.id_usuario = us.id_usuario ';
 		$from .= 'LEFT JOIN (SELECT * FROM direcciones ORDER BY orden) AS di ON di.id_usuario = us.id_usuario ';
 		$from .= 'LEFT JOIN voluntarios AS vol ON vol.id_usuario = us.id_usuario ';
 		$from .= 'LEFT JOIN donaciones AS don ON don.id_usuario = us.id_usuario ';
@@ -126,7 +126,7 @@ class UsuarioController extends SimpleController {
 	public function addForm()
 	{
 		
-		$usuario = new Usuario();
+		$usuario = null;
 		$telefonos = null;
 		$mails = null;
 		$direcciones = null;
@@ -146,7 +146,7 @@ class UsuarioController extends SimpleController {
 			$voluntario = DB::getInstance()->executeQ($sql);
 
 			$id_voluntario_1 = DB::getInstance()->executeQ(sprintf('SELECT id_voluntario FROM voluntarios WHERE id_usuario = %d',$_GET['id']));
-			$id_voluntario = $id_voluntario_1[0]['id_voluntario'];
+			@$id_voluntario = $id_voluntario_1[0]['id_voluntario'];
 			$sql = sprintf("SELECT id_naturaleza FROM voluntarios_naturalezas Where id_voluntario = %d",$id_voluntario);
 			$naturalezas = DB::getInstance()->executeQ($sql);			
 		}

@@ -1,5 +1,6 @@
 <fieldset>
 	<legend>Datos Generales</legend>
+		<input type="hidden" name="passOLD" id="passOLD" value="{{usuario.pass}}"/>
 		<label>Tipo de Usuario</label>
 		<select id="tipo_usuario" name="tipo_usuario">
 			<option value="0">Persona</option>
@@ -105,20 +106,35 @@
 <fieldset>
 	<legend>Datos de contacto</legend>
 
-		<label>mail</label>		
-		<input type="text" id="mail" name="mail" value="{{usuario.mail}}">
+			
+		{% if usuario != null %}
+			<input type="hidden" id="mail" name="mail" value="{{usuario.mail}}">
+		{% else %}
+			<label>mail</label>	
+			<input type="text" id="mail" name="mail" value="{{usuario.mail}}">
+		{% endif %}
 
 		<label>web</label>		
 		<input type="text" id="web" name="web" value="{{usuario.web}}">
 
 		<label>twitter</label>		
 		<input type="text" id="twitter" name="twitter" value="{{usuario.twitter}}">
+	
 
-		<label>Teléfono fijo</label>		
-		<input type="text" id="tfno_fijo" name="tfno_fijo" value="{{usuario.tfno_fijo}}">
+		{% if usuario != null %}
+			<input type="hidden" id="tfno_fijo" name="tfno_fijo" value="{{usuario.tfno_fijo}}">
+		{% else %}
+			<label>Teléfono fijo</label>		
+			<input type="text" id="tfno_fijo" name="tfno_fijo" value="{{usuario.tfno_fijo}}">
+		{% endif %}
+		
 
-		<label>Telefono movil</label>		
-		<input type="text" id="tfno_movil" name="tfno_movil" value="{{usuario.tfno_movil}}">
+		{% if usuario != null %}
+			<input type="hidden" id="tfno_movil" name="tfno_movil" value="{{usuario.tfno_movil}}">
+		{% else %}
+			<label>Telefono movil</label>		
+			<input type="text" id="tfno_movil" name="tfno_movil" value="{{usuario.tfno_movil}}">
+		{% endif %}
 
 		<label>Prefijo Internacional</label>		
 		<input type="text" id="pre_internacional" name="pre_internacional" value="{{usuario.pre_internacional}}">

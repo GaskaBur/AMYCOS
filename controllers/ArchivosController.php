@@ -140,7 +140,10 @@ class ArchivosController extends SimpleController {
 			$cat = $_GET['cat_archivo'];
 		else
 			$cat = $_POST['cat_archivo'];
-		parent::genList(false,'id_archivo,nombre,fecha_alta','archivos','id_categoria_archivo = '.$cat);
+		if ($cat != 0)
+			parent::genList(false,'id_archivo,nombre,fecha_alta','archivos','id_categoria_archivo = '.$cat);
+		else
+			parent::genList(false,'id_archivo,nombre,fecha_alta','archivos');
 	}
 
 	/*

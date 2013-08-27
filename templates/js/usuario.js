@@ -28,7 +28,9 @@ $( document ).ready(function() {
 	});
 
 	if ($('#administrador').is(':checked'))
+	{
 		$('#divPass').show();
+	}
 
 	if ($('#prg_becas_old').is(':checked'))
 		$('#fechasBecas').show();
