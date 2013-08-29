@@ -37,6 +37,7 @@ class LoginController {
 				{
 					//Login correcto
 					$_SESSION['username'] = $result[0]['nombre'];
+					$_SESSION['id_usuario'] = $result[0]['id_usuario'];
 					header('location:index.php');
 				}
 			}

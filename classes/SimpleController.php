@@ -269,19 +269,19 @@ class SimpleController {
 		if(isset($_POST['filtro_administrador']))
 		{
 			$filtro .= "AND us.administrador = 1 ";
-			setcookie("filtro_administrador","1");
+			setcookie("filtro_administrador","1", time()+3600);
 		}
 		else
-			setcookie("filtro_administrador","0");
+			setcookie("filtro_administrador","0", time()+3600);
 
 		
 		if(isset($_POST['filtro_suscriptor']))
 		{
 			$filtro .= "AND us.suscriptor = 1 ";
-			setcookie("filtro_suscriptor","1");
+			setcookie("filtro_suscriptor","1", time()+3600);
 		}
 		else
-			setcookie("filtro_suscriptor","0");
+			setcookie("filtro_suscriptor","0", time()+3600);
 
 		setcookie("filtro_socio_local","0", time()-3600);
 		if(isset($_POST['filtro_socio_local']))

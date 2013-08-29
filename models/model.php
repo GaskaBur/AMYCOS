@@ -71,7 +71,10 @@ abstract class Model extends DB {
 					break;		
 				case TYPE_MD5:		
 					$sql .= sprintf("'%s'", addslashes(utf8_decode(md5($field['value']))));
-					break;	
+					break;
+				default:		
+					$sql .= sprintf("'%s'", addslashes(utf8_decode($field['value'])));
+					break;		
 			}				
 			if ($loop != count($this->definition['fields']))
 				$sql .= ",";
@@ -173,7 +176,10 @@ abstract class Model extends DB {
 					break;		
 				case TYPE_DATE:		
 					$query .= $key."='".$this->$key."',";
-					break;		
+					break;	
+				case TYPE_AREA:		
+					$query .= $key."='".$this->$key."',";
+					break;	
 				case TYPE_MD5:	
 					//Este condicional viene dado para no macachar los contraseñas.
 					if (@$_POST['pass'] != @$_POST['passOLD'])	
@@ -196,7 +202,14 @@ abstract class Model extends DB {
 	}
 
 	/*
-	Genera un formulario en base al fieldset de la calse
+	Genera un formulario en base al fieldset de la clase.
+	Parse la estructura de la descripción del fieldset y dependiendo
+	de los valores del array genera un typo de input y otro, los principales son:
+	* input text normla
+	* input text con fecha
+	* input hidden
+	* input con relación a otra tabla
+	* input hidden con valor de session.
 	*/
 	public function genForm($_controller, $_action, $_class)
 	{
@@ -216,49 +229,67 @@ abstract class Model extends DB {
 		//parseando el fieldSet definition
 		foreach ($this->definition['fields'] as $key => $value) { 
 			
-			$output .= '<label for="'.$key.'">'.$key.'</label>';
+			if (!isset($value['hidden']) && !isset($value['session']))
+				$output .= '<label for="'.$key.'">'.$key.'</label>';
 
 			if (!isset($value['relation']))
 			{
-				if ($value['type'] == TYPE_BOOL)
+				if (isset($value['session']))
 				{
-					$output .= '<select $id="'.$key.'" name="'.$key.'">';
-					if (isset($clase))
+					$output .= '<input type="hidden" id="'.$key.'" name="'.$key.'" value="'.$_SESSION['id_usuario'].'"/>';
+				}
+				else
+				{
+					//Campo Input 
+					if ($value['type'] == TYPE_BOOL)
 					{
-						if($clase->$key == 0)
+						$output .= '<select $id="'.$key.'" name="'.$key.'">';
+						if (isset($clase))
 						{
-							$output .= '<option value="0" selected>0</option>';
-							$output .= '<option value="1">1</option>';
+							if($clase->$key == 0)
+							{
+								$output .= '<option value="0" selected>0</option>';
+								$output .= '<option value="1">1</option>';
+							}
+							else
+							{
+								$output .= '<option value="0">0</option>';
+								$output .= '<option value="1" selected>1</option>';
+							}
 						}
 						else
 						{
 							$output .= '<option value="0">0</option>';
 							$output .= '<option value="1" selected>1</option>';
 						}
+						$output .= '</select>';
 					}
-					else
-					{
-						$output .= '<option value="0">0</option>';
-						$output .= '<option value="1" selected>1</option>';
+					else if ($value['type'] == TYPE_DATE) {
+						$output .= '<script>$(function() {$( "#'.$key.'" ).datepicker({ dateFormat: "yy-mm-dd" });});</script>';
+						if (isset($clase))
+							$output .= '<input type="input" id="'.$key.'" name="'.$key.'" value="'.$clase->$key.'"/>';
+						else
+						{
+							if (@$value['value'] == 'now')
+								$output .= '<input type="hidden" id="'.$key.'" name="'.$key.'" value="'.date('Y-m-d').'"/>';
+							else
+								$output .= '<input type="input" id="'.$key.'" name="'.$key.'" />';
+						}
+							
 					}
-					$output .= '</select>';
-				}
-				else if ($value['type'] == TYPE_DATE) {
-					$output .= '<script>$(function() {$( "#'.$key.'" ).datepicker({ dateFormat: "yy-mm-dd" });});</script>';
-					if (isset($clase))
+					else if ($value['type'] == TYPE_AREA) {
+						$output .= '<textarea rows="4" cols="50" id="'.$key.'" name="'.$key.'">'.@$clase->$key.'</textarea>';
+					}
+
+					else if (isset($clase))
 						$output .= '<input type="input" id="'.$key.'" name="'.$key.'" value="'.$clase->$key.'"/>';
 					else
 						$output .= '<input type="input" id="'.$key.'" name="'.$key.'" />';
-						
 				}
-
-				else if (isset($clase))
-					$output .= '<input type="input" id="'.$key.'" name="'.$key.'" value="'.$clase->$key.'"/>';
-				else
-					$output .= '<input type="input" id="'.$key.'" name="'.$key.'" />';
 			}
 			else
 			{
+				//Campo con relación a otra tabla
 				if (isset($clase))
 					$anterior =  $clase->$key;
 				else
@@ -268,7 +299,7 @@ abstract class Model extends DB {
 				$output .= '<select $id="'.$key.'" name="'.$key.'">';
 				if (!isset($value['isRequired']))
 					$output .= '<option value="0"></option>';
-				foreach ($classRelation->getAll($value['where'], @$value['order']) as $key => $value2) {
+				foreach (@$classRelation->getAll($value['where'], @$value['order']) as $key => $value2) {
 					$id = 'id_'.strtolower($value['relation']);
 					$output .= '<option value="'.$value2[$id].'"';
 					if ($value2[$id] == $anterior)
@@ -278,6 +309,7 @@ abstract class Model extends DB {
 				
 				$output .= '</select>';
 			}
+			$output .= '<br>';
 		}
 		$output .= '<input type="submit" value="Enviar"/>';
 		$output .= '</fieldset>';
