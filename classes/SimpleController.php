@@ -56,15 +56,30 @@ class SimpleController {
 			{
 				$consulta = sprintf("select %s from %s",$query,$from);
 				$consulta =  substr($consulta, 0,strrpos($consulta, "LIMIT"));
-				$listado = DB::getInstance()->executeQ(sprintf("select %s from %s",$query,$from));
+				$sql = sprintf("select %s from %s",$query,$from);
+
+				//Busca si existe alguna cookie de ordenación relativa a la clase
+				if (@$_COOKIE['orden_'.$this->class] != '')
+				{
+					$sql .= ' ORDER BY '.$_COOKIE['orden_'.$this->class];					
+				}
+				$listado = DB::getInstance()->executeQ($sql);
 			}
 			else
 			{
 				$consulta = sprintf("select %s from %s where %s",$query,$from,$where);
 				$consulta =  substr($consulta, 0,strrpos($consulta, "LIMIT"));
-				$listado = DB::getInstance()->executeQ(sprintf("select %s from %s where %s",$query,$from,$where));				
+				$sql = sprintf("select %s from %s where %s",$query,$from,$where);
+
+				//Busca si existe alguna cookie de ordenación relativa a la clase
+				if (@$_COOKIE['orden_'.$this->class] != '')
+				{
+					$sql .= ' ORDER BY '.$_COOKIE['orden_'.$this->class];					
+				}
+				$listado = DB::getInstance()->executeQ($sql);				
 			}
 		}		
+		
 		
 		
 		echo $this->twig->render('listasimple.html', array(
@@ -371,6 +386,20 @@ class SimpleController {
 		setcookie("filtro_provincia");
 		setcookie("usuario_orden");
 
+		$salida= 'location:'.$_SERVER['SCRIPT_NAME'].'?controller='.$this->controller.'&action=genList';
+		
+		header($salida);
+	}
+
+
+	/*
+	Asigna un cooki de ordenación para generar el listado de una clase, cookie única para cada clase:
+	order_+nombre de la clase
+	*/
+	public function order() {
+		$key = $_GET['key'];
+		
+		setcookie("orden_".$this->class,$key, time()+3600);
 		$salida= 'location:'.$_SERVER['SCRIPT_NAME'].'?controller='.$this->controller.'&action=genList';
 		
 		header($salida);

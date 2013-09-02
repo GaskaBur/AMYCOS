@@ -81,6 +81,15 @@ class Archivo extends Model {
 	{
 		return parent::selectAll(Archivo::$tabla);
 	}
+
+	/*
+	Devuelve los archivos de una categoría de archivos
+	*/
+	public static function getFilesCategory($id_category) {
+		$result = DB::getInstance()->executeQ(sprintf("SELECT %s FROM %s WHERE id_categoria_archivo = %d",'*','archivos',$id_category));
+		return $result;
+	}
+
 	
 
 	

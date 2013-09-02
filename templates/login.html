@@ -1,0 +1,20 @@
+
+<form method="post" action="?controller=LoginController&amp;action=login">
+    <label>mail</label>
+    <input type="text" id="userID" name="userID" value="mail" />
+    <script type="text/javascript">
+        $('#userID').click(function(){
+            $(this).val('') ;
+        });
+    </script>
+    <label>Contraseña</label>
+    <input type="password" id="userPASS" name="userPASS" value="pass"/>
+     <script type="text/javascript">
+        $('#userPASS').click(function(){
+            $(this).val('') ;
+        });
+    </script>
+    <input type="submit" value="entrar"/>
+</form>
+         
+      

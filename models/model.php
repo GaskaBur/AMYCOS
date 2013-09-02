@@ -211,7 +211,7 @@ abstract class Model extends DB {
 	* input con relación a otra tabla
 	* input hidden con valor de session.
 	*/
-	public function genForm($_controller, $_action, $_class)
+	public function genForm($_controller, $_action, $_class, $_submit = true)
 	{
 		
 		//Si llega id se envía por GET la id de trabajo
@@ -265,15 +265,15 @@ abstract class Model extends DB {
 						$output .= '</select>';
 					}
 					else if ($value['type'] == TYPE_DATE) {
-						$output .= '<script>$(function() {$( "#'.$key.'" ).datepicker({ dateFormat: "yy-mm-dd" });});</script>';
+						$output .= '<script>$(function() {$( "#'.$key.'" ).datepicker({ dateFormat: "dd-mm-yy" });});</script>';
 						if (isset($clase))
-							$output .= '<input type="input" id="'.$key.'" name="'.$key.'" value="'.$clase->$key.'"/>';
+							$output .= '<input type="input" id="'.$key.'" readonly name="'.$key.'" value="'.$clase->$key.'"/>';
 						else
 						{
 							if (@$value['value'] == 'now')
-								$output .= '<input type="hidden" id="'.$key.'" name="'.$key.'" value="'.date('Y-m-d').'"/>';
+								$output .= '<input readonly type="hidden" id="'.$key.'" name="'.$key.'" value="'.date('Y-m-d').'"/>';
 							else
-								$output .= '<input type="input" id="'.$key.'" name="'.$key.'" />';
+								$output .= '<input readonly type="input" id="'.$key.'" name="'.$key.'" />';
 						}
 							
 					}
@@ -311,9 +311,13 @@ abstract class Model extends DB {
 			}
 			$output .= '<br>';
 		}
-		$output .= '<input type="submit" value="Enviar"/>';
-		$output .= '</fieldset>';
-		$output .= '</form>';
+
+		if ($_submit)
+		{
+			$output .= '<input type="submit" value="Enviar"/>';
+			$output .= '</fieldset>';
+			$output .= '</form>';
+		}
 		return $output;
 	}
 

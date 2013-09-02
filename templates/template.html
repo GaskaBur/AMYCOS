@@ -29,6 +29,14 @@
 <script type="text/javascript" src="templates/js/usuario.js"></script>
 <script type="text/javascript" src="templates/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript">
+    
+    $(document).ready(function() {
+      $(".html").click(function() {
+        $('#myModal').modal('show');
+      });     
+});
+</script>
 {% block js %}
 {% endblock %}
 </head>

@@ -1,0 +1,34 @@
+<div id="asociarArchivos" class="modal hide fade" style="background:#fff;width:50%;height:100%" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">Modal header</h3>
+
+    </div>
+	<div class="modal-body">
+		<script type="text/javascript">
+			function dale(){
+				alert('click');
+			}
+
+		</script>
+		<h1 onclick="dale()">Repositorio de archivos</h1>
+		<ul>
+		{% for key,archivo in archivos %}
+			<li>
+			{{archivo['descripcion']}}
+			<ul>
+			{% for file in archivo['archivos'] %}
+				<li>{{file.nombre}}</li>
+			{% endfor %}
+			</ul>
+			</li>
+		{% endfor %}
+		</ul>
+
+	</div>
+    <div class="modal-footer">
+    	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    	<button type="button" class="btn btn-primary" data-dismiss="1" aria-hidden="true">Asociar</button>
+    	<!-- button class="btn btn-primary">Save changes</button -->
+    </div>
+</div>
