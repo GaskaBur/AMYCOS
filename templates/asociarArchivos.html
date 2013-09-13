@@ -9,21 +9,40 @@
 			function dale(){
 				alert('click');
 			}
+			
+		
 
 		</script>
+        <script type="text/javascript" src="templates/js/asociarArchivos.js"></script>
 		<h1 onclick="dale()">Repositorio de archivos</h1>
+        <div id="archivosCat" class="archivosCat" style="float:left">
 		<ul>
 		{% for key,archivo in archivos %}
-			<li>
+			<li id="categoria_{{archivo['id_categoria_archivo']}}" class="categoria_archivo">
 			{{archivo['descripcion']}}
-			<ul>
+			<!-- ul>
 			{% for file in archivo['archivos'] %}
 				<li>{{file.nombre}}</li>
 			{% endfor %}
-			</ul>
+			</ul-->
 			</li>
 		{% endfor %}
 		</ul>
+        </div>
+        
+        <div class="archivo" style="float:right">
+        {% for key,archivo in archivos %}
+			{% if archivo['archivos']  %}
+            	<div id="bloque_cat_{{archivo['id_categoria_archivo']}}" class="bloque_archivos" style="display:none">
+                	<ul>
+                    {% for file in archivo['archivos'] %}
+                        <li id="file_{{file.id_archivo}}">{{file.nombre}}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}  			
+		{% endfor %}
+        </div>
 
 	</div>
     <div class="modal-footer">

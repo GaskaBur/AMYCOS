@@ -33,6 +33,7 @@ class FormulacionController extends SimpleController {
 		foreach ($categorias as $key => $value) {
 			$archivos[$value['id_categoria_archivo']] = array();
 			$archivos[$value['id_categoria_archivo']]['descripcion'] = $value['descripcion'];
+			$archivos[$value['id_categoria_archivo']]['id_categoria_archivo'] = $value['id_categoria_archivo'];
 			$archivos[$value['id_categoria_archivo']]['archivos'] = Archivo::getFilesCategory($value['id_categoria_archivo']);
 		}
 		$formulario .= '<a href="#asociarArchivos" role="button" class="btn" data-toggle="modal">Asociar archivos</a>';
