@@ -60,7 +60,7 @@ class Archivo extends Model {
 			'extension' => array('type' => TYPE_STRING, 'value' => ''),
 			'header' => array('type' => TYPE_STRING, 'value' => ''),
 			'fecha_alta' => array('type' => TYPE_DATE, 'value' => ''),
-			'id_usuario' => array('type' => TYPE_STRING, 
+			'id_usuario' => array('type' => TYPE_INT, 
 				'value' => '',
 				'relation' => 'usuario',
 				'relationKey' => 'nombre',
@@ -88,6 +88,20 @@ class Archivo extends Model {
 	public static function getFilesCategory($id_category) {
 		$result = DB::getInstance()->executeQ(sprintf("SELECT %s FROM %s WHERE id_categoria_archivo = %d",'*','archivos',$id_category));
 		return $result;
+	}
+
+	/*
+	Devuelve los archivos asociados a una formulacion
+	*/
+	public static function getFilesFormulacion($id_formulacion) {
+		$asociados = DB::getInstance()->executeQ(
+			sprintf("SELECT %s FROM %s WHERE id_formulacion = %d",'id_archivo','formulaciones_archivos',$id_formulacion));
+		$files = array();
+		foreach ($asociados as $value) {
+			$files[] = new Archivo($value['id_archivo']);
+		}
+
+		return $files;
 	}
 
 	

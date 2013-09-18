@@ -1,0 +1,12 @@
+Instrucciones de instalación:
+
+1º ha de descomprimir el archivo Pack_fact_re.rar en alguna localización de su equipo
+2º obtendrá dos .zip (factSpa.zip y recargoequivalencia.zip)
+3º puede subir ambos zip desde su backOffice de Prestashop o extraerlos directamente en la carpeta modules
+4º recomendadmos primero instalar factSpa.
+
+Para los usuarios de 1.5.5.0
+
+Por el nuevo sistema de caché de Prestashop a veces puede ser necesario realizar las siguientes operaciones para que se apliquen correctamente todos los cambios:
+- borrar el archivo caclhe/class_index.php
+- desde el backoffice en opciones avanzadas/rendimiento -> forzar compilación y borrar caché.

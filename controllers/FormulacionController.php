@@ -37,7 +37,15 @@ class FormulacionController extends SimpleController {
 			$archivos[$value['id_categoria_archivo']]['archivos'] = Archivo::getFilesCategory($value['id_categoria_archivo']);
 		}
 		$formulario .= '<a href="#asociarArchivos" role="button" class="btn" data-toggle="modal">Asociar archivos</a>';
-        $formulario .= $this->twig->render('asociarArchivos.html', array('archivos' => $archivos));
+
+		$formulario .= '<div><ul id="archivosAsociados">';
+		$archivosAsociados = Archivo::getFilesFormulacion($_GET['id']);
+		foreach ($archivosAsociados as $key => $value) {
+			$formulario .= '<li>'.$key."-".$value->nombre.'</li>';
+		}
+		$formulario .= '</ul></div>';
+		$formulario .= '<a href="#asociarArchivos" role="button" class="btn" data-toggle="modal">Asociar archivos</a>';
+        $formulario .= $this->twig->render('asociarArchivos.html', array('archivos' => $archivos,'id_formulacion' => $_GET['id']));
    		
 
      	$formulario .= '<input type="submit" value="Enviar"/>';
@@ -64,8 +72,32 @@ class FormulacionController extends SimpleController {
 		parent::genList(false,$query,$from);
 	}
 
+	/* BLOQUE QUE CREO QUE NO SE USA, REVISAR MAS ADELANTE.
 	public function asociarArchivos(){
 		echo $this->twig->render('asociarArchivos.html', array());
+	}
+	*/
+
+	public function asociarArchivos()
+	{
+		if (isset($_POST['id_formulacion']))
+		{
+			$idFormulacion = $_POST['id_formulacion'];
+			if ($idFormulacion != -1)
+			{
+				$files = array();
+				if (isset($_POST['files']))
+				{
+					$files = $_POST['files'];
+				}
+				$sql = sprintf("DELETE FROM formulaciones_archivos WHERE id_formulacion = %d",$idFormulacion);
+				DB::getInstance()->execute($sql);
+				foreach ($files as $value) {
+					$sql = sprintf("INSERT INTO formulaciones_archivos VALUES (%d,%d)",$idFormulacion,$value);
+					DB::getInstance()->execute($sql);
+				}
+			}
+		}
 	}
 
 		

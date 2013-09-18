@@ -104,7 +104,7 @@ class ArchivosController extends SimpleController {
 							$archivo->extension = $extension;
 							$archivo->header = $_FILES['archivo']['type'][$proceso];
 							$archivo->fecha_alta = date('YmdHis').'_'.$proceso;
-							$archivo->id_usuario = 0;
+							$archivo->id_usuario = $_SESSION['id_usuario'];
 							$archivo->descripcion = '';
 							$archivo->id_categoria_archivo = $_POST['cat_archivo'];
 							$archivo->add();
