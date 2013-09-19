@@ -133,7 +133,7 @@
         </ul>        
       </div> <!--/.nav-collapse --> 
       {% if SESSION %}
-      <p class="navbar-text pull-right">Sesión activa como <a href="#" class="navbar-link">{{SESSION.username}}</a> <a href="?controller=LoginController&amp;action=logout" class="navbar-link" style="color:red">LogOut</a></p>
+      <p >Sesión activa como <a href="#" class="navbar-link">{{SESSION.username}}</a> <a href="?controller=LoginController&amp;action=logout" class="navbar-link" style="color:red">LogOut</a></p>
       {% else %}
        <p class="navbar-text pull-right">
             <form method="post" action="?controller=LoginController&amp;action=login">

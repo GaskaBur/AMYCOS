@@ -64,6 +64,8 @@ class SimpleController {
 					$sql .= ' ORDER BY '.$_COOKIE['orden_'.$this->class];					
 				}
 				$listado = DB::getInstance()->executeQ($sql);
+				if ($consulta == '')
+					$consulta = $consulta = sprintf("select %s from %s",$query,$from);
 			}
 			else
 			{

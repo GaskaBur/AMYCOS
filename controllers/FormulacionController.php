@@ -20,11 +20,14 @@ class FormulacionController extends SimpleController {
 		$formulario = $clase->genForm('FormulacionController','add',$clase,false);
 
 		//Asociación de archivos con Formulaciones 
-		//Listado de archivos
-		if (isset($_GET['id']))
-		{
-			$formulario .= '<h3>Listado de Archivos Asociados</h3>';
-			//$archivos = Formulacion_Archivo::getArchivos($_GET['id']);
+		//Listado de archivos		
+		$id = -1;
+		$idsArchivosAsociados = array();
+		$archivosAsociados = array();
+		if (isset($_GET['id']))	
+		{		
+			$id = $_GET['id'];
+			$archivosAsociados = Archivo::getFilesFormulacion($_GET['id']);
 		}
 
 		//Preparando repositorio de archivos
@@ -36,19 +39,38 @@ class FormulacionController extends SimpleController {
 			$archivos[$value['id_categoria_archivo']]['id_categoria_archivo'] = $value['id_categoria_archivo'];
 			$archivos[$value['id_categoria_archivo']]['archivos'] = Archivo::getFilesCategory($value['id_categoria_archivo']);
 		}
-		$formulario .= '<a href="#asociarArchivos" role="button" class="btn" data-toggle="modal">Asociar archivos</a>';
-
-		$formulario .= '<div><ul id="archivosAsociados">';
-		$archivosAsociados = Archivo::getFilesFormulacion($_GET['id']);
-		foreach ($archivosAsociados as $key => $value) {
-			$formulario .= '<li>'.$key."-".$value->nombre.'</li>';
+				
+		$formulario .= '<div id="divArchivosAsociados">';
+		if (count($archivosAsociados) > 0)
+		{
+			$formulario .= '<h3>Listado de Archivos Asociados</h3>';
+			$formulario .= '<div><table id="archivosAsociados" border="1">';
+			$formulario .= '<thead><tr>';
+			$formulario .= '<th></th>';
+			$formulario .= '<th>id archivo</th>';
+			$formulario .= '<th>nombre</th>';
+			$formulario .= '</tr></thead>';
+			foreach ($archivosAsociados as $key => $value) {
+				$formulario .= '<tr>';
+				$formulario .= '<td>'.($key + 1).'</td>';
+				$formulario .= '<td>'.$value->id_archivo.'</td>';
+				$formulario .= '<td><a href="?controller=ArchivosController&action=addForm&id='.$value->id_archivo.'">'.$value->nombre.'</a></td>';
+				$idsArchivosAsociados[] = $value->id_archivo;
+				$formulario .= '</tr>';
+			}
+			$formulario .= '</table></div>';
 		}
-		$formulario .= '</ul></div>';
+		$formulario .= '</div>';
+		
+		
 		$formulario .= '<a href="#asociarArchivos" role="button" class="btn" data-toggle="modal">Asociar archivos</a>';
-        $formulario .= $this->twig->render('asociarArchivos.html', array('archivos' => $archivos,'id_formulacion' => $_GET['id']));
+        $formulario .= $this->twig->render('asociarArchivos.html', array('archivos' => $archivos,
+        	'id_formulacion' => $id,
+        	'idsArchivosAsociados' => $idsArchivosAsociados,
+        	'archivosAsociados' => $archivosAsociados));
    		
 
-     	$formulario .= '<input type="submit" value="Enviar"/>';
+     	$formulario .= '<br><input type="submit" value="Guardar Formulación"/>';
 			$formulario .= '</fieldset>';
 			$formulario .= '</form>';
    
@@ -78,26 +100,56 @@ class FormulacionController extends SimpleController {
 	}
 	*/
 
-	public function asociarArchivos()
+	public function asociarArchivos($id = null,$files = array())
 	{
-		if (isset($_POST['id_formulacion']))
+		if ($id == null)
 		{
-			$idFormulacion = $_POST['id_formulacion'];
-			if ($idFormulacion != -1)
+			if (isset($_POST['id_formulacion']))
 			{
-				$files = array();
-				if (isset($_POST['files']))
+				$idFormulacion = $_POST['id_formulacion'];
+				if ($idFormulacion != -1)
 				{
-					$files = $_POST['files'];
-				}
-				$sql = sprintf("DELETE FROM formulaciones_archivos WHERE id_formulacion = %d",$idFormulacion);
-				DB::getInstance()->execute($sql);
-				foreach ($files as $value) {
-					$sql = sprintf("INSERT INTO formulaciones_archivos VALUES (%d,%d)",$idFormulacion,$value);
+					$files = array();
+					if (isset($_POST['files']))
+					{
+						$files = $_POST['files'];
+					}
+					$sql = sprintf("DELETE FROM formulaciones_archivos WHERE id_formulacion = %d",$idFormulacion);
 					DB::getInstance()->execute($sql);
+					foreach ($files as $value) {
+						$sql = sprintf("INSERT INTO formulaciones_archivos VALUES (%d,%d)",$idFormulacion,$value);
+						DB::getInstance()->execute($sql);
+					}
 				}
 			}
 		}
+		else
+		{
+			foreach ($files as $value) {
+				$sql = sprintf("INSERT INTO formulaciones_archivos VALUES (%d,%d)",$id,$value);
+				DB::getInstance()->execute($sql);
+			}
+		}
+	}
+
+	/*
+	Sobreescribo el método para guardar una formulación, controlando si hay que guardar archivos asociados.
+	el paramentro return del metodo padre es para indicar que antes de cargar el formulario hay que pasar por
+	ese método, si no automaticamente llama al método genList() para generar la lista.
+	*/
+	public function add($return = null)
+	{
+		
+		if (!isset($_GET['id']))
+		{
+			$id =  parent::add('1'); //Consiguo la id de la formulación nueva.
+			$this->asociarArchivos($id,$_POST['archivoAsociado']);
+			$this->genList();
+		}
+		else
+			$id = parent::add();
+
+		//Comprobar si hay que guardar archivos asociados.
 	}
 
 		

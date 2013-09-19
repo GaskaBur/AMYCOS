@@ -1,8 +1,8 @@
+
 <script type="text/javascript">
+		
 	{% if id_formulacion %}
 		var id_formulacion = {{id_formulacion}};
-	{% else %}
-		var id_formulacion = -1;
 	{% endif %}
 </script>
 <div id="asociarArchivos" class="modal hide fade" style="background:#fff;width:50%;height:100%" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -19,6 +19,8 @@
 		</script>
         <script type="text/javascript" src="templates/js/asociarArchivos.js"></script>
 		<h1 onclick="dale()">Repositorio de archivos</h1>
+		<h3>Selecciona los archivos entre las distintas categorías</h3>
+		<p>Los archivos que se selecciones se mantendrán seleccionados mientras navegas por otras categorías</p>
         <div id="archivosCat" class="archivosCat" style="float:left;cursor: pointer;">
 		<ul style="list-style:none">
 		{% for key,archivo in archivos %}
@@ -36,10 +38,18 @@
             	<div id="bloque_cat_{{archivo['id_categoria_archivo']}}" class="bloque_archivos" style="display:none">
                 	<ul style="list-style:none">
                     {% for file in archivo['archivos'] %}
-                        <li id="file_{{file.id_archivo}}" class="archivo_file" on="0"><img src="templates/img/file.png" alt=" " />{{file.nombre}}</li>
+                    	{% if file.id_archivo in idsArchivosAsociados %}
+                    		<li id="file_{{file.id_archivo}}" style="background:#ccffff;cursor: pointer" class="archivo_file" on="1"><img src="templates/img/file.png" alt=" " />{{file.nombre}}</li>
+                    	{% else %}
+                        	<li id="file_{{file.id_archivo}}" style="background:#ffffff;cursor: pointer;" class="archivo_file" on="0"><img src="templates/img/file.png" alt=" " />{{file.nombre}}</li>
+                        {% endif %}
                     {% endfor %}
                     </ul>
                 </div>
+            {% else %}  
+            	<div id="bloque_cat_{{archivo['id_categoria_archivo']}}" class="bloque_archivos" style="display:none">
+                	<p>no existen archivos en esta categoría</p>
+                </div>  
             {% endif %}  			
 		{% endfor %}
         </div>
@@ -47,7 +57,11 @@
 	</div>
     <div class="modal-footer">
     	<button class="btn" data-dismiss="modal" aria-hidden="true" id="btnCloseFiles">Close</button>
-    	<button type="button" class="btn btn-primary" id="btnAsociarFiles" data-dismiss="1" aria-hidden="true">Asociar y Guardar</button>
+    	{% if id_formulacion != -1%}
+    		<button type="button" class="btn btn-primary" id="btnAsociarFiles" data-dismiss="1" aria-hidden="true">Asociar y Guardar</button>
+    	{% else %}	
+    		<button type="button" class="btn btn-primary" id="btnAsociarFilesNew" data-dismiss="modal" aria-hidden="true">Asociar</button>
+    	{% endif %}
     	<!-- button class="btn btn-primary">Save changes</button -->
     </div>
 </div>
